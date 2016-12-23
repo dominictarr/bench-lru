@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "faster-lru-cache": "^2.0.0",
+    "hashlru": "0.0.0",
     "lighter-lru-cache": "^1.0.0",
     "lru": "^3.1.0",
     "lru-cache": "^4.0.1",
