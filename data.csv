@@ -6,3 +6,7 @@ lru_cache, 2778, 8333, 23
 tiny-lru, 2222, 4000, 23
 lru, 1220, 2128, 7
 simple-lru-cache, 2128, 6250, 7
+mkc, 336, 7, 2
+lru-fast, 6250, 2941, 7
+faster-lru-cache, 1, 1, 1
+secondary-cache, 917, 7, 2
