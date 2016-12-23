@@ -4,9 +4,9 @@ benchmark the least-recently-used caches which are available on npm
 
 ## introduction
 
-an LRU cache is a cache with bounded memory use.
+An LRU cache is a cache with bounded memory use.
 The point of a cache is to improve performance,
-so how performant are the available implementations.
+so how performant are the available implementations?
 
 LRUs achive bounded memory use by removing the oldest items when a threashold number of items
 is reached. We measure 3 cases, adding an item, updating an item, and adding items
@@ -27,6 +27,8 @@ then _evict_ those keys, by adding keys N-2N.
 ### results
 
 Operations per millisecond (higher is better)
+
+(see updated results at the bottom!)
 
 ``` csv
 name, set, update, evict
@@ -72,10 +74,42 @@ I think there opportunities for better perf. For example, it should be possible 
 when evicting by recycling the least recently used item ito the new value. I would expect this to also
 have better GC behaviour.
 
+## UPDATE!
+
+I implemented a new LRU algorithm [hashlru](https://github.com/dominictarr/hashlru)
+that is simpler and faster across the board. It's O(1) like LRU, but does less per operation.
+
+These results also include read times.
+
+``` csv
+name, set, get1, update, get2, evict
+hashlru, 6250, 8333, 6250, 7143, 4167
+lru-native, 714, 1053, 935, 1042, 510
+modern-lru, 239, 581, 498, 578, 370
+lru-cache, 300, 1449, 592, 1786, 247
+lru_cache, 3226, 14286, 11111, 12500, 22
+lru, 1887, 2778, 1724, 2857, 7
+simple-lru-cache, 3448, 6667, 6667, 9091, 7
+mkc, 410, 7, 3, 2, 1
+lru-fast, 1493, 4762, 12500, 14286, 7
+faster-lru-cache, 1, 1, 1, 1, 1
+secondary-cache, 935, 7, 3, 2, 1
+```
+
+I removed `tiny-lru` because it was crashing in the get phase.
+
+## further discussion
+
+javascript is generally slow, so one of the best ways to make it fast is to write less of it.
+LRUs are also quite difficult to implement (linked lists!). In trying to come up with a faster
+LRU implementation I realized that something far simpler could do the same job. Especially
+given the strengths and weaknesses of javascript, this is significantly faster than any of the
+other implementations, _including_ the C implementation. Likely, the overhead of the C<->js boundry
+is partly to blame here.
+
 ## License
 
 MIT
-
 
 
 

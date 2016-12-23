@@ -1,12 +1,12 @@
-name, set, update, evict
-lru-native, 621, 901, 654
-modern-lru, 415, 508, 336
-lru-cache, 199, 521, 238
-lru_cache, 2778, 8333, 23
-tiny-lru, 2222, 4000, 23
-lru, 1220, 2128, 7
-simple-lru-cache, 2128, 6250, 7
-mkc, 336, 7, 2
-lru-fast, 6250, 2941, 7
-faster-lru-cache, 1, 1, 1
-secondary-cache, 917, 7, 2
+name, set, get1, update, get2, evict
+hashlru, 6250, 8333, 6250, 7143, 4167
+lru-native, 714, 1053, 935, 1042, 510
+modern-lru, 239, 581, 498, 578, 370
+lru-cache, 300, 1449, 592, 1786, 247
+lru_cache, 3226, 14286, 11111, 12500, 22
+lru, 1887, 2778, 1724, 2857, 7
+simple-lru-cache, 3448, 6667, 6667, 9091, 7
+mkc, 410, 7, 3, 2, 1
+lru-fast, 1493, 4762, 12500, 14286, 7
+faster-lru-cache, 1, 1, 1, 1, 1
+secondary-cache, 935, 7, 3, 2, 1
