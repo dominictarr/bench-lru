@@ -46,33 +46,33 @@ Operations per millisecond (*higher is better*):
 
 We can group the results in a few categories:
 
-* all rounders (lru-native, modern-lru, lru-cache) where the performance
+* all rounders (hashlru, lru-native, modern-lru, lru-cache) where the performance
   to add update and evict are comparable.
 * fast-write, slow-evict (lru_cache, tiny-lur, lru, simple-lru-cache, lru-fast) these have better set/update times, but for some reason are quite slow to evict items!
 * slow in at least 2 categories (mkc, faster-lur-cache, secondary-cache)
 
 ## Discussion
 
-It appears that all-round performance is the most difficult to achive, and there are no implementations
-that have very high eviction performance. It is also interesting that of the implementations which
-can set and update very fast, none can evict quickly.
+It appears that all-round performance is the most difficult to achive, in particular,
+performance on eviction is difficult to achive. I think eviction performance is the most important
+consideration, because once the cache is _warm_ each subsequent addition causes an eviction,
+and actively used, _hot_, cache will run close to it's eviction performance.
 Also, some have faster add than update, and some faster update than add.
 
 `modern-lru` gets pretty close to `lru-native` perf.
-
-I think there opportunities for better perf. For example, it should be possible to avoid an alloction
-when evicting by recycling the least recently used item ito the new value. I would expect this to also
-have better GC behaviour.
+I wrote `hashlru` after my seeing the other results from this benchmark, it's important to point
+out that it does not use the classic LRU algorithm, but has the important properties of the LRU
+(bounded memory use and O(1) time complexity)
 
 ## Future work
 
-This is very early results, take any difference smaller than an order of magnitude with a grain of salt.
+This is still pretty early results, take any difference smaller than an order of magnitude with a grain of salt.
 
 It is necessary to measure the statistical significance of the results to know accurately the relative performance of two closely matched implementations.
 
 I also didn't test the memory usage. This should be done running the benchmarks each in a separate process, so that the memory used by each run is not left over while the next is running.
 
-## Further discussion
+## conclusion
 
 javascript is generally slow, so one of the best ways to make it fast is to write less of it.
 LRUs are also quite difficult to implement (linked lists!). In trying to come up with a faster
@@ -91,3 +91,6 @@ that is simpler and faster across the board. It's O(1) like LRU, but does less p
 ## License
 
 MIT
+
+
+
