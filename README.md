@@ -33,15 +33,15 @@ Operations per millisecond (*higher is better*):
 | ----------------- | ------- | -------- | --------- | -------- |-------- |
 | hashlru           |   6250  |   8333   |   6250    |   7143   |   4167  |
 | lru-native        |   714   |   1053   |   935     |   1042   |   510   |
-| modern-lru        |   239   |   581    |   498     |   578    |   370   |
 | lru-cache         |   300   |   1449   |   592     |   1786   |   247   |
+| modern-lru        |   239   |   581    |   498     |   578    |   370   |
 | lru_cache         |   3226  |   14286  |   11111   |   12500  |   22    |
-| lru               |   1887  |   2778   |   1724    |   2857   |   7     |
-| simple-lru-cache  |   3448  |   6667   |   6667    |   9091   |   7     |
-| mkc               |   410   |   7      |   3       |   2      |   1     |
 | lru-fast          |   1493  |   4762   |   12500   |   14286  |   7     |
-| faster-lru-cache  |   1     |   1      |   1       |   1      |   1     |
+| simple-lru-cache  |   3448  |   6667   |   6667    |   9091   |   7     |
+| lru               |   1887  |   2778   |   1724    |   2857   |   7     |
 | secondary-cache   |   935   |   7      |   3       |   2      |   1     |
+| mkc               |   410   |   7      |   3       |   2      |   1     |
+| faster-lru-cache  |   1     |   1      |   1       |   1      |   1     |
 
 
 We can group the results in a few categories:
