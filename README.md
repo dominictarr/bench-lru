@@ -50,7 +50,7 @@ We can group the results in a few categories,
 * all rounders (lru-native, modern-lru, lru-cache) where the performance
   to add update and evict are comparable.
 * fast-write, slow-evict (lru_cache, tiny-lur, lru, simple-lru-cache, lru-fast) these have better set/update times, but for some reason are quite slow to evict items!
-* slow in at least 2 categories (mkc, faster-lur-cache, secondary-cache)
+* slow in at least 2 categories (mkc, faster-lru-cache, secondary-cache)
 
 ## future work
 
