@@ -17,7 +17,7 @@ var algs = {
   'modern-lru': function (n) { return new Modern(n) },
   'lru-cache': LruCache,
   'lru_cache': function (n) { return new LRU_Cache(n) },
-//  'tiny-lru': tinyLRU,
+  'tiny-lru': tinyLRU,
   'lru': LRU,
   'simple-lru-cache': function (n) { return new Simple({maxSize: n}) },
   'mkc': function (n) { return new MKC({max: n}) },
