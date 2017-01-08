@@ -31,24 +31,25 @@ Operations per millisecond (*higher is better*):
 
 | name              |   set   |   get1   |   update  |   get2   |   evict |
 | ----------------- | ------- | -------- | --------- | -------- |-------- |
-| hashlru           |   6250  |   8333   |   6250    |   7143   |   4167  |
+| tiny-lru          |   4762  |   20000  |   33333   |   33333  |   4545  |
+| hashlru           |   10000 |   20000  |   8333    |   5000   |   4000  |
 | lru-native        |   714   |   1053   |   935     |   1042   |   510   |
-| lru-cache         |   300   |   1449   |   592     |   1786   |   247   |
-| modern-lru        |   239   |   581    |   498     |   578    |   370   |
-| lru_cache         |   3226  |   14286  |   11111   |   12500  |   22    |
-| lru-fast          |   1493  |   4762   |   12500   |   14286  |   7     |
-| simple-lru-cache  |   3448  |   6667   |   6667    |   9091   |   7     |
-| lru               |   1887  |   2778   |   1724    |   2857   |   7     |
-| secondary-cache   |   935   |   7      |   3       |   2      |   1     |
-| mkc               |   410   |   7      |   3       |   2      |   1     |
-| faster-lru-cache  |   1     |   1      |   1       |   1      |   1     |
+| lru-cache         |   469   |   2273   |   1099    |   3226   |   356   |
+| modern-lru        |   671   |   730    |   781     |   1000   |   599   |
+| lru_cache         |   4545  |   20000  |   20000   |   25000  |   44    |
+| lru-fast          |   2381  |   14286  |   25000   |   25000  |   13    |
+| simple-lru-cache  |   4762  |   20000  |   20000   |   33333  |   14    |
+| lru               |   1563  |   4762   |   4167    |   5000   |   14    |
+| secondary-cache   |   1429  |   13     |   5       |   3      |   2     |
+| mkc               |   518   |   13     |   5       |   3      |   2     |
+| faster-lru-cache  |   9     |   4      |   4       |   4      |   4     |
 
 
 We can group the results in a few categories:
 
-* all rounders (hashlru, lru-native, modern-lru, lru-cache) where the performance
+* all rounders (tiny-lru, hashlru, lru-native, modern-lru, lru-cache) where the performance
   to add update and evict are comparable.
-* fast-write, slow-evict (lru_cache, tiny-lru, lru, simple-lru-cache, lru-fast) these have better set/update times, but for some reason are quite slow to evict items!
+* fast-write, slow-evict (lru_cache, lru, simple-lru-cache, lru-fast) these have better set/update times, but for some reason are quite slow to evict items!
 * slow in at least 2 categories (mkc, faster-lur-cache, secondary-cache)
 
 ## Discussion
@@ -74,7 +75,7 @@ I also didn't test the memory usage. This should be done running the benchmarks 
 
 ## conclusion
 
-javascript is generally slow, so one of the best ways to make it fast is to write less of it.
+Javascript is generally slow, so one of the best ways to make it fast is to write less of it.
 LRUs are also quite difficult to implement (linked lists!). In trying to come up with a faster
 LRU implementation I realized that something far simpler could do the same job. Especially
 given the strengths and weaknesses of javascript, this is significantly faster than any of the
@@ -83,6 +84,14 @@ is partly to blame here.
 
 ## Changelog
 
+### 1.0.1
+* Jason updated `tiny-lru` and re-ran the tests on a Mac Book Air (13" early 2014 / i7 / 8GB / 512 SSD / macOS 10.12.2) with node.js 7.4.0.
+
+* Jason added `nan` module to avoid a compile error from `lru-native`; it wouldn't compile so results were not changed.
+
+* Jason updated `npm test`.
+
+### 1.0.0
 * I implemented a new LRU algorithm [hashlru](https://github.com/dominictarr/hashlru)
 that is simpler and faster across the board. It's O(1) like LRU, but does less per operation.
 
