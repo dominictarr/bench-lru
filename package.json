@@ -29,6 +29,9 @@
   "scripts": {
     "test": "node index.js"
   },
+  "browser": {
+    "lru-native": false
+  },
   "author": "'Dominic Tarr' <dominic.tarr@gmail.com> (dominictarr.com)",
   "license": "MIT"
 }
