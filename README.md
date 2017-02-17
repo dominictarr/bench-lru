@@ -31,18 +31,18 @@ Operations per millisecond (*higher is better*):
 
 | name              |   set   |   get1   |   update  |   get2   |   evict |
 | ----------------- | ------- | -------- | --------- | -------- |-------- |
-| tiny-lru          |   4762  |   20000  |   33333   |   33333  |   4545  |
-| hashlru           |   10000 |   20000  |   8333    |   5000   |   4000  |
-| lru-native        |   714   |   1053   |   935     |   1042   |   510   |
-| lru-cache         |   469   |   2273   |   1099    |   3226   |   356   |
-| modern-lru        |   671   |   730    |   781     |   1000   |   599   |
-| lru_cache         |   4545  |   20000  |   20000   |   25000  |   44    |
-| lru-fast          |   2381  |   14286  |   25000   |   25000  |   13    |
-| simple-lru-cache  |   4762  |   20000  |   20000   |   33333  |   14    |
-| lru               |   1563  |   4762   |   4167    |   5000   |   14    |
-| secondary-cache   |   1429  |   13     |   5       |   3      |   2     |
-| mkc               |   518   |   13     |   5       |   3      |   2     |
-| faster-lru-cache  |   9     |   4      |   4       |   4      |   4     |
+| [tiny-lru](https://github.com/avoidwork/tiny-lru) |   4762  |   20000  |   33333   |   33333  |   4545  |
+| [hashlru](https://github.com/dominictarr/hashlru) |   10000 |   20000  |   8333    |   5000   |   4000  |
+| [lru-native](https://npmjs.org/package/lru-native) |   714   |   1053   |   935     |   1042   |   510   |
+| [lru-cache](https://github.com/isaacs/node-lru-cache) |   469   |   2273   |   1099    |   3226   |   356   |
+| [modern-lru](https://github.com/silentroach/modern-lru) |   671   |   730    |   781     |   1000   |   599   |
+| [lru_cache](https://github.com/Empact/lru_cache) |   4545  |   20000  |   20000   |   25000  |   44    |
+| [lru-fast](https://github.com/rsms/js-lru) |   2381  |   14286  |   25000   |   25000  |   13    |
+| [simple-lru-cache](https://github.com/geisbruch/node-simple-lru-cache) |   4762  |   20000  |   20000   |   33333  |   14    |
+| [lru](https://github.com/chriso/lru) |   1563  |   4762   |   4167    |   5000   |   14    |
+| [secondary-cache](https://github.com/snowyu/node-secondary-cache) |   1429  |   13     |   5       |   3      |   2     |
+| [mkc](https://github.com/rsandor/mkc) |   518   |   13     |   5       |   3      |   2     |
+| [faster-lru-cache](https://github.com/marvinhagemeister/faster-lru-cache) |   9     |   4      |   4       |   4      |   4     |
 
 
 We can group the results in a few categories:
