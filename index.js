@@ -1,7 +1,7 @@
 'use strict'
 
 const {readFileSync, createWriteStream} = require('fs')
-const markdownTables = require('markdown-tables')
+const toMD = require('markdown-tables')
 const bench = require('./bench')
 const path = require('path')
 const ora = require('ora')
@@ -37,10 +37,10 @@ const headers = [
   'evict'
 ];
 
-const buffer = [headers.join(',')]
-
 const keys = Object.keys(lrus)
 const size = keys.length
+const median = []
+const buffer = []
 
 Object.keys(lrus).forEach((lruName, index)  =>{
   const spinner = ora(`${lruName} ${index}/${size}`).start();
@@ -48,15 +48,30 @@ Object.keys(lrus).forEach((lruName, index)  =>{
   const lru = lrus[lruName]
   const result = bench(lru, N)
   
+  let total = 0
+  
   const output = result.reduce((acc, value, index) => {
-    acc.push(Math.round(N / value))
+    value = Math.round(N / value)
+    total += value
+    acc.push(value)
     return acc
   }, [`[${lruName}](https://npm.im/${lruName})`])
   
+  median.push({name: lruName, total})
   buffer.push(output.join(','))
   spinner.stop()
 })
 
+const sort = median.sort(function compare(b, a) {
+  if (a.total < b.total) return -1;
+  if (a.total > b.total) return 1;
+  return 0;
+})
 
-const table = markdownTables(buffer.join('\n'))
-console.log(table)
+const results = sort.map((lru, index) => {
+  const {name: lruName} = sort[index]
+  return buffer.find(item => item.includes(lruName))
+}).join('\n')
+
+const table = [headers.join(',')].concat(results).join('\n')
+console.log(toMD(table))
