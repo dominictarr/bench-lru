@@ -14,17 +14,19 @@ const Modern = require('modern-lru')
 const MKC = require('mkc')
 
 const lrus = {
-  'simple-lru-cache': maxSize => new Simple({maxSize}),
-  'secondary-cache': require('secondary-cache'),
-  'modern-lru': n => new Modern(n),
-  lru_cache: n => new LRU_Cache(n),
-  'lru-fast': n => new Fast(n),
-  mkc: n => new MKC({max: n}),
-  hashlru: require('hashlru'),
   'lru-cache': require('lru-cache'),
+  'lru-fast': n => new Fast(n),
+  'modern-lru': n => new Modern(n),
+  'quick-lru': maxSize => new QuickLRU({maxSize}),
+  'secondary-cache': require('secondary-cache'),
+  'simple-lru-cache': maxSize => new Simple({maxSize}),
   'tiny-lru': require('tiny-lru'),
+  hashlru: require('hashlru'),
+  hyperlru: max => hyperlru({max}),
+  hyperlru: require('hyperlru'),
+  lru_cache: n => new LRU_Cache(n),
   lru: require('lru'),
-  'quick-lru': maxSize => new QuickLRU({maxSize})
+  mkc: max => new MKC({max}),
 }
 
 const N = 100000

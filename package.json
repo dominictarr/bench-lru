@@ -32,6 +32,7 @@
     "secondary-cache": "^1.2.1",
     "simple-lru-cache": "0.0.2",
     "tiny-lru": "^1.4.1",
+    "hyperlru": "~1.0.0",
     "tiny-lru-cache": "^1.0.1"
   },
   "scripts": {
