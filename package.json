@@ -1,11 +1,20 @@
 {
   "name": "bench-lru",
   "description": "",
-  "version": "1.0.1",
   "homepage": "https://github.com/dominictarr/bench-lru",
+  "version": "1.0.1",
+  "main": "index.js",
+  "author": {
+    "email": "dominic.tarr@gmail.com",
+    "name": "'Dominic Tarr'",
+    "url": "dominictarr.com"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/dominictarr/bench-lru.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dominictarr/bench-lru/issues"
   },
   "dependencies": {
     "faster-lru-cache": "^2.0.0",
@@ -29,6 +38,5 @@
   "scripts": {
     "test": "node index.js"
   },
-  "author": "'Dominic Tarr' <dominic.tarr@gmail.com> (dominictarr.com)",
   "license": "MIT"
 }
