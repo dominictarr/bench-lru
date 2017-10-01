@@ -29,20 +29,20 @@ I run a very simple benchmark. In four phases:
 
 Operations per millisecond (*higher is better*):
 
-| name                                                | set  | get1  | update | get2  | evict |
-|-----------------------------------------------------|------|-------|--------|-------|-------|
-| [simple-lru-cache](https://npm.im/simple-lru-cache) | 3448 | 12500 | 14286  | 25000 | 3030  |
-| [tiny-lru](https://npm.im/tiny-lru)                 | 2703 | 9091  | 20000  | 20000 | 3704  |
-| [hyperlru](https://npm.im/hyperlru)                 | 1887 | 20000 | 2703   | 20000 | 2778  |
-| [lru_cache](https://npm.im/lru_cache)               | 3226 | 16667 | 7692   | 14286 | 1887  |
-| [lru-fast](https://npm.im/lru-fast)                 | 1075 | 8333  | 8333   | 11111 | 3448  |
-| [hashlru](https://npm.im/hashlru)                   | 2500 | 5000  | 3571   | 12500 | 8333  |
-| [lru](https://npm.im/lru)                           | 3030 | 4000  | 3704   | 4167  | 1000  |
-| [lru-cache](https://npm.im/lru-cache)               | 1136 | 3704  | 1923   | 5556  | 877   |
-| [quick-lru](https://npm.im/quick-lru)               | 2381 | 2273  | 1754   | 2439  | 3226  |
-| [secondary-cache](https://npm.im/secondary-cache)   | 1299 | 3030  | 1923   | 4348  | 1471  |
-| [modern-lru](https://npm.im/modern-lru)             | 1163 | 1639  | 2174   | 2381  | 680   |
-| [mkc](https://npm.im/mkc)                           | 893  | 1136  | 613    | 1316  | 794   |
+| name                                                | size    | gzip    | set  | get1  | update | get2  | evict |
+|-----------------------------------------------------|---------|---------|------|-------|--------|-------|-------|
+| [hyperlru](https://npm.im/hyperlru)                 | 889 B   | 395 B   | 1653 | 20000 | 2564   | 22222 | 2817  |
+| [lru_cache](https://npm.im/lru_cache)               | 2.19 kB | 756 B   | 4167 | 18182 | 5714   | 16667 | 4444  |
+| [simple-lru-cache](https://npm.im/simple-lru-cache) | 1.43 kB | 565 B   | 2326 | 10526 | 10000  | 14286 | 2439  |
+| [tiny-lru](https://npm.im/tiny-lru)                 | 4 kB    | 1.64 kB | 5556 | 9091  | 6061   | 13333 | 3279  |
+| [lru-fast](https://npm.im/lru-fast)                 | 2.34 kB | 793 B   | 2222 | 12500 | 10526  | 5882  | 3571  |
+| [hashlru](https://npm.im/hashlru)                   | 628 B   | 332 B   | 7143 | 5556  | 5882   | 6061  | 7407  |
+| [secondary-cache](https://npm.im/secondary-cache)   | 22.6 kB | 6.54 kB | 1282 | 3846  | 2857   | 6061  | 1695  |
+| [lru](https://npm.im/lru)                           | 6.07 kB | 1.86 kB | 2985 | 3636  | 2532   | 2062  | 1802  |
+| [lru-cache](https://npm.im/lru-cache)               | 19.1 kB | 6.23 kB | 1198 | 3175  | 2439   | 4878  | 922   |
+| [quick-lru](https://npm.im/quick-lru)               | 1.23 kB | 489 B   | 3030 | 2273  | 2941   | 2247  | 2105  |
+| [modern-lru](https://npm.im/modern-lru)             | 2.27 kB | 907 B   | 1149 | 1961  | 2020   | 2469  | 820   |
+| [mkc](https://npm.im/mkc)                           | 10.5 kB | 3.61 kB | 784  | 939   | 935    | 1538  | 608   |
 
 We can group the results in a few categories:
 

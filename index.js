@@ -1,10 +1,12 @@
 'use strict'
 
 const {readFileSync, createWriteStream} = require('fs')
+const prettyBytes = require('pretty-bytes')
 const toMD = require('markdown-tables')
 const bench = require('./bench')
 const path = require('path')
 const ora = require('ora')
+const got = require('got')
 
 const LRU_Cache = require('lru_cache').LRUCache
 const Simple = require('simple-lru-cache')
@@ -32,6 +34,8 @@ const lrus = {
 const N = 200000
 const headers = [
   'name',
+  'size',
+  'gzip',
   'set',
   'get1',
   'update',
@@ -39,39 +43,50 @@ const headers = [
   'evict'
 ];
 
-const keys = Object.keys(lrus)
-const size = keys.length
+const cases = Object.keys(lrus)
+const totalCases = cases.length
 const median = []
 const buffer = []
 
-Object.keys(lrus).forEach((lruName, index)  =>{
-  const spinner = ora(`${lruName} ${index}/${size}`).start();
-  
-  const lru = lrus[lruName]
-  const result = bench(lru, N)
-  let total = 0
-  
-  const output = result.reduce((acc, value, index) => {
-    total += value
-    acc.push(value)
-    return acc
-  }, [`[${lruName}](https://npm.im/${lruName})`])
-  
-  median.push({name: lruName, total})
-  buffer.push(output.join(','))
-  spinner.stop()
-})
+const fetchSize = async pkg => {
+  const url = `https://bundlephobia.com/api/size?package=${pkg}&record=true`
+  const {body} = await got(url, {json: true})
+  return ['size', 'gzip'].map(value => prettyBytes(body[value]))
+}
 
-const sort = median.sort(function compare(b, a) {
-  if (a.total < b.total) return -1;
-  if (a.total > b.total) return 1;
-  return 0;
-})
+let index = 0
 
-const results = sort.map((lru, index) => {
-  const {name: lruName} = sort[index]
-  return buffer.find(item => item.includes(`[${lruName}]`))
-}).join('\n')
+;(async () => {
+  for (const lruName of cases) {
+    const spinner = ora(`${lruName} ${++index}/${totalCases}`).start();
+    const [size, gzip] = await fetchSize(lruName)
+    
+    const lru = lrus[lruName]
+    const result = bench(lru, N)
+    let total = 0
+    
+    const output = result.reduce((acc, value, index) => {
+      total += value
+      acc.push(value)
+      return acc
+    }, [`[${lruName}](https://npm.im/${lruName})`, size, gzip])
+    
+    median.push({name: lruName, total})
+    buffer.push(output.join(','))
+    spinner.stop()
+  }
 
-const table = [headers.join(',')].concat(results).join('\n')
-console.log(toMD(table))
+  const sort = median.sort(function compare(b, a) {
+    if (a.total < b.total) return -1;
+    if (a.total > b.total) return 1;
+    return 0;
+  })
+
+  const results = sort.map((lru, index) => {
+    const {name: lruName} = sort[index]
+    return buffer.find(item => item.includes(`[${lruName}]`))
+  }).join('\n')
+
+  const table = [headers.join(',')].concat(results).join('\n')
+  console.log(toMD(table))
+})()
