@@ -29,21 +29,20 @@ I run a very simple benchmark. In four phases:
 
 Operations per millisecond (*higher is better*):
 
-| name              |   set   |   get1   |   update  |   get2   |   evict |
-| ----------------- | ------- | -------- | --------- | -------- |-------- |
-| tiny-lru          |   4762  |   20000  |   33333   |   33333  |   4545  |
-| hashlru           |   10000 |   20000  |   8333    |   5000   |   4000  |
-| lru-native        |   714   |   1053   |   935     |   1042   |   510   |
-| lru-cache         |   469   |   2273   |   1099    |   3226   |   356   |
-| modern-lru        |   671   |   730    |   781     |   1000   |   599   |
-| lru_cache         |   4545  |   20000  |   20000   |   25000  |   44    |
-| lru-fast          |   2381  |   14286  |   25000   |   25000  |   13    |
-| simple-lru-cache  |   4762  |   20000  |   20000   |   33333  |   14    |
-| lru               |   1563  |   4762   |   4167    |   5000   |   14    |
-| secondary-cache   |   1429  |   13     |   5       |   3      |   2     |
-| mkc               |   518   |   13     |   5       |   3      |   2     |
-| faster-lru-cache  |   9     |   4      |   4       |   4      |   4     |
-
+| name                                                | set  | get1  | update | get2  | evict |
+|-----------------------------------------------------|------|-------|--------|-------|-------|
+| [simple-lru-cache](https://npm.im/simple-lru-cache) | 3448 | 12500 | 14286  | 25000 | 3030  |
+| [tiny-lru](https://npm.im/tiny-lru)                 | 2703 | 9091  | 20000  | 20000 | 3704  |
+| [hyperlru](https://npm.im/hyperlru)                 | 1887 | 20000 | 2703   | 20000 | 2778  |
+| [lru_cache](https://npm.im/lru_cache)               | 3226 | 16667 | 7692   | 14286 | 1887  |
+| [lru-fast](https://npm.im/lru-fast)                 | 1075 | 8333  | 8333   | 11111 | 3448  |
+| [hashlru](https://npm.im/hashlru)                   | 2500 | 5000  | 3571   | 12500 | 8333  |
+| [lru](https://npm.im/lru)                           | 3030 | 4000  | 3704   | 4167  | 1000  |
+| [lru-cache](https://npm.im/lru-cache)               | 1136 | 3704  | 1923   | 5556  | 877   |
+| [quick-lru](https://npm.im/quick-lru)               | 2381 | 2273  | 1754   | 2439  | 3226  |
+| [secondary-cache](https://npm.im/secondary-cache)   | 1299 | 3030  | 1923   | 4348  | 1471  |
+| [modern-lru](https://npm.im/modern-lru)             | 1163 | 1639  | 2174   | 2381  | 680   |
+| [mkc](https://npm.im/mkc)                           | 893  | 1136  | 613    | 1316  | 794   |
 
 We can group the results in a few categories:
 
