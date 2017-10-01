@@ -48,8 +48,7 @@ Object.keys(lrus).forEach((lruName, index)  =>{
   const spinner = ora(`${lruName} ${index}/${size}`).start();
   
   const lru = lrus[lruName]
-  const result = bench(lru, N)
-  
+  const result = bench(lru, N)  
   let total = 0
   
   const output = result.reduce((acc, value, index) => {
@@ -72,7 +71,7 @@ const sort = median.sort(function compare(b, a) {
 
 const results = sort.map((lru, index) => {
   const {name: lruName} = sort[index]
-  return buffer.find(item => item.includes(lruName))
+  return buffer.find(item => item.includes(`[${lruName}]`))
 }).join('\n')
 
 const table = [headers.join(',')].concat(results).join('\n')
