@@ -48,11 +48,10 @@ Object.keys(lrus).forEach((lruName, index)  =>{
   const spinner = ora(`${lruName} ${index}/${size}`).start();
   
   const lru = lrus[lruName]
-  const result = bench(lru, N)  
+  const result = bench(lru, N)
   let total = 0
   
   const output = result.reduce((acc, value, index) => {
-    value = Math.round(N / value)
     total += value
     acc.push(value)
     return acc

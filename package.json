@@ -3,7 +3,7 @@
   "description": "",
   "homepage": "https://github.com/dominictarr/bench-lru",
   "version": "1.0.1",
-  "main": "index.js",
+  "main": "bench.js",
   "author": {
     "email": "dominic.tarr@gmail.com",
     "name": "'Dominic Tarr'",

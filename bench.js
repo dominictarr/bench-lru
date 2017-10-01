@@ -28,7 +28,6 @@ module.exports = (createLRU, num = 1000) => {
   for(let i = 0; i < num; i++) lru.get(i)
   getTimestampTwo = getTimestampTwo()
 
-
   //evict
   let evictTimestamp = createTimestamp()
   const evicts = num*2
@@ -41,5 +40,5 @@ module.exports = (createLRU, num = 1000) => {
     updateTimestmap,
     getTimestampTwo,
     evictTimestamp
-  ]
+  ].map(value => Math.round(num / value))
 }
