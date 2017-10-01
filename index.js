@@ -11,6 +11,7 @@ const Simple = require('simple-lru-cache')
 const Fast = require('lru-fast').LRUCache
 const QuickLRU = require('quick-lru')
 const Modern = require('modern-lru')
+const hyperlru = require('hyperlru')
 const MKC = require('mkc')
 
 const lrus = {
@@ -23,13 +24,12 @@ const lrus = {
   'tiny-lru': require('tiny-lru'),
   hashlru: require('hashlru'),
   hyperlru: max => hyperlru({max}),
-  hyperlru: require('hyperlru'),
   lru_cache: n => new LRU_Cache(n),
   lru: require('lru'),
   mkc: max => new MKC({max}),
 }
 
-const N = 100000
+const N = 200000
 const headers = [
   'name',
   'set',

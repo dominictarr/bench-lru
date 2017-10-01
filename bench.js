@@ -8,7 +8,7 @@ const createTimestamp = () => {
 module.exports = (createLRU, num = 1000) => {
   const lru = createLRU(num)
   
-  //set
+  // set
   let setTimestamp = createTimestamp()
   for(let i = 0; i < num; i++) lru.set(i, Math.random())
   setTimestamp = setTimestamp()
@@ -18,7 +18,7 @@ module.exports = (createLRU, num = 1000) => {
   for(let i = 0; i < num; i++) lru.get(i)
   getTimestamp = getTimestamp()
 
-  //update
+  // update
   let updateTimestmap = createTimestamp()
   for(let i = 0; i < num; i++) lru.set(i, Math.random())
   updateTimestmap = updateTimestmap()
@@ -28,7 +28,7 @@ module.exports = (createLRU, num = 1000) => {
   for(let i = 0; i < num; i++) lru.get(i)
   getTimestampTwo = getTimestampTwo()
 
-  //evict
+  // evict
   let evictTimestamp = createTimestamp()
   const evicts = num*2
   for(let i = num; i < evicts; i++) lru.set(i, Math.random())
