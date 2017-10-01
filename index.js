@@ -1,84 +1,62 @@
-var LRU = require('lru')
-var LruCache = require('lru-cache')
-var tinyLRU = require('tiny-lru')
-var SecondaryCache = require('secondary-cache')
-var LRU_Cache = require('lru_cache').LRUCache
-var Modern = require('modern-lru')
-var Simple = require('simple-lru-cache')
-var Faster = require('faster-lru-cache').default
-var MKC = require('mkc')
-//var Lighter = require('lighter-lru-cache') //could not figure out API
-var Fast = require('lru-fast').LRUCache
-var Native = require('lru-native')
+'use strict'
 
-var algs = {
-  'hashlru': require('hashlru'),
-  'lru-native': Native,
-  'modern-lru': function (n) { return new Modern(n) },
-  'lru-cache': LruCache,
-  'lru_cache': function (n) { return new LRU_Cache(n) },
-  'tiny-lru': tinyLRU,
-  'lru': LRU,
-  'simple-lru-cache': function (n) { return new Simple({maxSize: n}) },
-  'mkc': function (n) { return new MKC({max: n}) },
-  'lru-fast': function (n) { return new Fast(n) },
-  'faster-lru-cache': function (n) { return new Faster(n) },
-  'secondary-cache': SecondaryCache
+const {readFileSync, createWriteStream} = require('fs')
+const markdownTables = require('markdown-tables')
+const bench = require('./bench')
+const path = require('path')
+const ora = require('ora')
+
+const LRU_Cache = require('lru_cache').LRUCache
+const Simple = require('simple-lru-cache')
+const Fast = require('lru-fast').LRUCache
+const QuickLRU = require('quick-lru')
+const Modern = require('modern-lru')
+const MKC = require('mkc')
+
+const lrus = {
+  'simple-lru-cache': maxSize => new Simple({maxSize}),
+  'secondary-cache': require('secondary-cache'),
+  'modern-lru': n => new Modern(n),
+  lru_cache: n => new LRU_Cache(n),
+  'lru-fast': n => new Fast(n),
+  mkc: n => new MKC({max: n}),
+  hashlru: require('hashlru'),
+  'lru-cache': require('lru-cache'),
+  'tiny-lru': require('tiny-lru'),
+  lru: require('lru'),
+  'quick-lru': maxSize => new QuickLRU({maxSize})
 }
 
-function run(LRU, N) {
-  var lru = LRU(N)
-  //set
-  var start = Date.now()
-  for(var i = 0; i < N; i++)
-    lru.set(i, Math.random())
+const N = 100000
+const headers = [
+  'name',
+  'set',
+  'get1',
+  'update',
+  'get2',
+  'evict'
+];
 
-  var a = Date.now() - start
+const buffer = [headers.join(',')]
 
+const keys = Object.keys(lrus)
+const size = keys.length
 
-  var start_2 = Date.now()
-  for(var i = 0; i < N; i++) lru.get(i)
-
-  var a2 = Date.now() - start_2
-
-
-  //update
-  var start2 = Date.now()
-  for(var i = 0; i < N; i++)
-    lru.set(i, Math.random())
-
-  var b = Date.now() - start2
-
-
-  var start_3 = Date.now()
-  for(var i = 0; i < N; i++) lru.get(i)
-
-  var b2 = Date.now() - start_3
-
-
-//  if(lru.newCache) lru.newCache()
-
-  //evict
-  var start3 = Date.now(), M = N*2
-  for(var i = N; i < M; i++)
-    lru.set(i, Math.random())
-
-  var c = Date.now() - start3
-
-  return [a, a2, b, b2, c]
-}
-
-var N = 100000
-
-console.log('name, set, get1, update, get2, evict')
-
-for(var name in algs) {
-  var v = run(algs[name], N).map(function (e) { return Math.round(N/(e)) })
-  console.log([name].concat(v).join(', '))
-}
+Object.keys(lrus).forEach((lruName, index)  =>{
+  const spinner = ora(`${lruName} ${index}/${size}`).start();
+  
+  const lru = lrus[lruName]
+  const result = bench(lru, N)
+  
+  const output = result.reduce((acc, value, index) => {
+    acc.push(Math.round(N / value))
+    return acc
+  }, [`[${lruName}](https://npm.im/${lruName})`])
+  
+  buffer.push(output.join(','))
+  spinner.stop()
+})
 
 
-
-
-
-
+const table = markdownTables(buffer.join('\n'))
+console.log(table)
