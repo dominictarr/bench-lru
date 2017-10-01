@@ -5,35 +5,35 @@ const createTimestamp = () => {
   return () => Date.now() - start
 }
 
-module.exports = (lru, num = 1000) => {
+module.exports = (createLRU, num = 1000) => {
   const lru = createLRU(num)
   
   //set
   let setTimestamp = createTimestamp()
-  for(const i = 0; i < num; i++) lru.set(i, Math.random())
+  for(let i = 0; i < num; i++) lru.set(i, Math.random())
   setTimestamp = setTimestamp()
   
   // get
   let getTimestamp = createTimestamp()
-  for(const i = 0; i < num; i++) lru.get(i)
-  let getTimestamp = getTimestamp
+  for(let i = 0; i < num; i++) lru.get(i)
+  getTimestamp = getTimestamp()
 
   //update
   let updateTimestmap = createTimestamp()
-  for(const i = 0; i < num; i++) lru.set(i, Math.random())
-  updateTimestmap = createTimestamp()
+  for(let i = 0; i < num; i++) lru.set(i, Math.random())
+  updateTimestmap = updateTimestmap()
 
   // get
   let getTimestampTwo = createTimestamp()
-  for(const i = 0; i < num; i++) lru.get(i)
-  getTimestampTwo = createTimestamp()
+  for(let i = 0; i < num; i++) lru.get(i)
+  getTimestampTwo = getTimestampTwo()
 
 
   //evict
   let evictTimestamp = createTimestamp()
   const evicts = num*2
-  for(const i = num; i < evicts; i++) lru.set(i, Math.random())
-  evictTimestamp = createTimestamp()
+  for(let i = num; i < evicts; i++) lru.set(i, Math.random())
+  evictTimestamp = evictTimestamp()
   
   return [
     setTimestamp,
