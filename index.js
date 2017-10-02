@@ -29,7 +29,7 @@ const lrus = {
   mkc: max => new MKC({max})
 }
 
-const N = 200000
+const N_ITERATIONS = 200000
 const headers = [
   'name',
   'size',
@@ -60,7 +60,7 @@ let index = 0
     const [size, gzip] = await fetchSize(lruName)
 
     const lru = lrus[lruName]
-    const result = bench(lru, N)
+    const result = bench(lru, N_ITERATIONS)
     let total = 0
 
     const output = result.reduce((acc, value, index) => {
