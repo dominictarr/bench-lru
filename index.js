@@ -12,6 +12,8 @@ const Fast = require('lru-fast').LRUCache
 const QuickLRU = require('quick-lru')
 const Modern = require('modern-lru')
 const hyperlru = require('hyperlru')
+const hyperlruObject = hyperlru(require('hyperlru-object'))
+const hyperlruMap = hyperlru(require('hyperlru-map'))
 const MKC = require('mkc')
 
 const lrus = {
@@ -23,7 +25,8 @@ const lrus = {
   'simple-lru-cache': maxSize => new Simple({maxSize}),
   'tiny-lru': require('tiny-lru'),
   hashlru: require('hashlru'),
-  hyperlru: max => hyperlru({max}),
+  'hyperlru-object': max => hyperlruObject({max}),
+  'hyperlru-map': max => hyperlruMap({max}),
   lru_cache: n => new LRUCache(n),
   lru: require('lru'),
   mkc: max => new MKC({max})

@@ -20,7 +20,9 @@
     "faster-lru-cache": "~2.0.0",
     "got": "~7.1.0",
     "hashlru": "~2.2.0",
-    "hyperlru": "~1.0.2",
+    "hyperlru": "~2.0.0",
+    "hyperlru-map": "~1.0.0",
+    "hyperlru-object": "~1.0.0",
     "lodash": "~4.17.4",
     "lru": "~3.1.0",
     "lru-cache": "~4.1.1",
@@ -43,8 +45,8 @@
   "scripts": {
     "lint": "standard-markdown && standard",
     "pretest": "npm run lint",
-    "test": "echo 'no tests yet'",
-    "start": "node --predictable index.js"
+    "start": "node --predictable index.js",
+    "test": "echo 'no tests yet'"
   },
   "license": "MIT"
 }
