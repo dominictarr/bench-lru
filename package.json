@@ -43,7 +43,8 @@
   "scripts": {
     "lint": "standard-markdown && standard",
     "pretest": "npm run lint",
-    "test": "echo 'no tests yet'"
+    "test": "echo 'no tests yet'",
+    "start": "node --predictable index.js"
   },
   "license": "MIT"
 }
