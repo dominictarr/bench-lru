@@ -72,7 +72,7 @@ It is necessary to measure the statistical significance of the results to know a
 
 I also didn't test the memory usage. This should be done running the benchmarks each in a separate process, so that the memory used by each run is not left over while the next is running.
 
-## conclusion
+## Conclusion
 
 Javascript is generally slow, so one of the best ways to make it fast is to write less of it.
 LRUs are also quite difficult to implement (linked lists!). In trying to come up with a faster
@@ -99,6 +99,3 @@ that is simpler and faster across the board. It's O(1) like LRU, but does less p
 ## License
 
 MIT
-
-
-
