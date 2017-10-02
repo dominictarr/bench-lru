@@ -1,11 +1,15 @@
 'use strict'
 
+const {times, chain, size} = require('lodash')
+
+const N_TIMES = 5
+
 const createTimestamp = () => {
   const start = Date.now()
   return () => Date.now() - start
 }
 
-module.exports = (createLRU, num = 1000) => {
+const createBench = (createLRU, num) => () => {
   const lru = createLRU(num)
 
   // set
@@ -40,5 +44,23 @@ module.exports = (createLRU, num = 1000) => {
     updateTimestmap,
     getTimestampTwo,
     evictTimestamp
-  ].map(value => Math.round(num / value))
+  ].map(value => num / value)
+}
+
+const avgBench = (benchs) => {
+  const total = size(benchs)
+  return chain(benchs)
+    .reduce(function (acc, bench) {
+      bench.forEach((result, i) => (acc[i] = (acc[i] || 0) + result))
+      return acc
+    }, [])
+    .map(value => Math.round(value / total))
+    .value()
+}
+
+module.exports = (createLRU, num) => {
+  const bench = createBench(createLRU, num)
+  const benchs = times(N_TIMES, bench)
+  const result = avgBench(benchs)
+  return result
 }
