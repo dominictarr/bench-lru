@@ -81,21 +81,6 @@ given the strengths and weaknesses of javascript, this is significantly faster t
 other implementations, _including_ the C implementation. Likely, the overhead of the C<->js boundry
 is partly to blame here.
 
-## Changelog
-
-### 1.0.1
-* Jason updated `tiny-lru` and re-ran the tests on a Mac Book Air (13" early 2014 / i7 / 8GB / 512 SSD / macOS 10.12.2) with node.js 7.4.0.
-
-* Jason added `nan` module to avoid a compile error from `lru-native`; it wouldn't compile so results were not changed.
-
-* Jason updated `npm test`.
-
-### 1.0.0
-* I implemented a new LRU algorithm [hashlru](https://github.com/dominictarr/hashlru)
-that is simpler and faster across the board. It's O(1) like LRU, but does less per operation.
-
-* I removed `tiny-lru` because it was crashing in the get phase.
-
 ## License
 
 MIT
