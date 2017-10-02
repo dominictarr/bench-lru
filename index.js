@@ -1,84 +1,92 @@
-var LRU = require('lru')
-var LruCache = require('lru-cache')
-var tinyLRU = require('tiny-lru')
-var SecondaryCache = require('secondary-cache')
-var LRU_Cache = require('lru_cache').LRUCache
-var Modern = require('modern-lru')
-var Simple = require('simple-lru-cache')
-var Faster = require('faster-lru-cache').default
-var MKC = require('mkc')
-//var Lighter = require('lighter-lru-cache') //could not figure out API
-var Fast = require('lru-fast').LRUCache
-var Native = require('lru-native')
+'use strict'
 
-var algs = {
-  'hashlru': require('hashlru'),
-  'lru-native': Native,
-  'modern-lru': function (n) { return new Modern(n) },
-  'lru-cache': LruCache,
-  'lru_cache': function (n) { return new LRU_Cache(n) },
-  'tiny-lru': tinyLRU,
-  'lru': LRU,
-  'simple-lru-cache': function (n) { return new Simple({maxSize: n}) },
-  'mkc': function (n) { return new MKC({max: n}) },
-  'lru-fast': function (n) { return new Fast(n) },
-  'faster-lru-cache': function (n) { return new Faster(n) },
-  'secondary-cache': SecondaryCache
+const {readFileSync, createWriteStream} = require('fs')
+const prettyBytes = require('pretty-bytes')
+const toMD = require('markdown-tables')
+const bench = require('./bench')
+const path = require('path')
+const ora = require('ora')
+const got = require('got')
+
+const LRU_Cache = require('lru_cache').LRUCache
+const Simple = require('simple-lru-cache')
+const Fast = require('lru-fast').LRUCache
+const QuickLRU = require('quick-lru')
+const Modern = require('modern-lru')
+const hyperlru = require('hyperlru')
+const MKC = require('mkc')
+
+const lrus = {
+  'lru-cache': require('lru-cache'),
+  'lru-fast': n => new Fast(n),
+  'modern-lru': n => new Modern(n),
+  'quick-lru': maxSize => new QuickLRU({maxSize}),
+  'secondary-cache': require('secondary-cache'),
+  'simple-lru-cache': maxSize => new Simple({maxSize}),
+  'tiny-lru': require('tiny-lru'),
+  hashlru: require('hashlru'),
+  hyperlru: max => hyperlru({max}),
+  lru_cache: n => new LRU_Cache(n),
+  lru: require('lru'),
+  mkc: max => new MKC({max}),
 }
 
-function run(LRU, N) {
-  var lru = LRU(N)
-  //set
-  var start = Date.now()
-  for(var i = 0; i < N; i++)
-    lru.set(i, Math.random())
+const N = 200000
+const headers = [
+  'name',
+  'size',
+  'gzip',
+  'set',
+  'get1',
+  'update',
+  'get2',
+  'evict'
+];
 
-  var a = Date.now() - start
+const cases = Object.keys(lrus)
+const totalCases = cases.length
+const median = []
+const buffer = []
 
-
-  var start_2 = Date.now()
-  for(var i = 0; i < N; i++) lru.get(i)
-
-  var a2 = Date.now() - start_2
-
-
-  //update
-  var start2 = Date.now()
-  for(var i = 0; i < N; i++)
-    lru.set(i, Math.random())
-
-  var b = Date.now() - start2
-
-
-  var start_3 = Date.now()
-  for(var i = 0; i < N; i++) lru.get(i)
-
-  var b2 = Date.now() - start_3
-
-
-//  if(lru.newCache) lru.newCache()
-
-  //evict
-  var start3 = Date.now(), M = N*2
-  for(var i = N; i < M; i++)
-    lru.set(i, Math.random())
-
-  var c = Date.now() - start3
-
-  return [a, a2, b, b2, c]
+const fetchSize = async pkg => {
+  const url = `https://bundlephobia.com/api/size?package=${pkg}&record=true`
+  const {body} = await got(url, {json: true})
+  return ['size', 'gzip'].map(value => prettyBytes(body[value]))
 }
 
-var N = 100000
+let index = 0
 
-console.log('name, set, get1, update, get2, evict')
+;(async () => {
+  for (const lruName of cases) {
+    const spinner = ora(`${lruName} ${++index}/${totalCases}`).start();
+    const [size, gzip] = await fetchSize(lruName)
+    
+    const lru = lrus[lruName]
+    const result = bench(lru, N)
+    let total = 0
+    
+    const output = result.reduce((acc, value, index) => {
+      total += value
+      acc.push(value)
+      return acc
+    }, [`[${lruName}](https://npm.im/${lruName})`, size, gzip])
+    
+    median.push({name: lruName, total})
+    buffer.push(output.join(','))
+    spinner.stop()
+  }
 
-for(var name in algs) {
-  var v = run(algs[name], N).map(function (e) { return Math.round(N/(e)) })
-  console.log([name].concat(v).join(', '))
-}
+  const sort = median.sort(function compare(b, a) {
+    if (a.total < b.total) return -1;
+    if (a.total > b.total) return 1;
+    return 0;
+  })
 
+  const results = sort.map((lru, index) => {
+    const {name: lruName} = sort[index]
+    return buffer.find(item => item.includes(`[${lruName}]`))
+  }).join('\n')
 
-
-
-
-
+  const table = [headers.join(',')].concat(results).join('\n')
+  console.log(toMD(table))
+})()
