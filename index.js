@@ -12,13 +12,16 @@ const Fast = require('lru-fast').LRUCache
 const QuickLRU = require('quick-lru')
 const Modern = require('modern-lru')
 const hyperlru = require('hyperlru')
+const {LRUMap} = require('lru_map')
+const MKC = require('mkc')
+
 const hyperlruObject = hyperlru(require('hyperlru-object'))
 const hyperlruMap = hyperlru(require('hyperlru-map'))
-const MKC = require('mkc')
 
 const lrus = {
   'lru-cache': require('lru-cache'),
   'lru-fast': n => new Fast(n),
+  'js-lru': n => new LRUMap(n),
   'modern-lru': n => new Modern(n),
   'quick-lru': maxSize => new QuickLRU({maxSize}),
   'secondary-cache': require('secondary-cache'),
