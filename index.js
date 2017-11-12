@@ -1,64 +1,53 @@
 'use strict'
 
-const prettyBytes = require('pretty-bytes')
-const toMD = require('markdown-tables')
-const bench = require('./bench')
-const ora = require('ora')
-const got = require('got')
+const Worker = require('tiny-worker'),
+  ora = require('ora'),
+  caches = [
+    'lru-cache',
+    'lru-fast',
+    'js-lru',
+    'modern-lru',
+    'quick-lru',
+    'secondary-cache',
+    'simple-lru-cache',
+    'tiny-lru',
+    'hashlru',
+    'hyperlru-object',
+    'hyperlru-map',
+    'lru_cache',
+    'lru',
+    'mkc'
+  ],
+  total = caches.length;
 
-const LRUCache = require('lru_cache').LRUCache
-const Simple = require('simple-lru-cache')
-const Fast = require('lru-fast').LRUCache
-const QuickLRU = require('quick-lru')
-const Modern = require('modern-lru')
-const hyperlru = require('hyperlru')
-const {LRUMap} = require('lru_map')
-const MKC = require('mkc')
+const spinner = ora(`Benchmarking ${total} caches`).start();
 
-const hyperlruObject = hyperlru(require('hyperlru-object'))
-const hyperlruMap = hyperlru(require('hyperlru-map'))
+Promise.all(caches.map(i => {
+  return new Promise(resolve => {
+    const worker = new Worker('worker.js');
 
-const lrus = {
-  'lru-cache': require('lru-cache'),
-  'lru-fast': n => new Fast(n),
-  'js-lru': n => new LRUMap(n),
-  'modern-lru': n => new Modern(n),
-  'quick-lru': maxSize => new QuickLRU({maxSize}),
-  'secondary-cache': require('secondary-cache'),
-  'simple-lru-cache': maxSize => new Simple({maxSize}),
-  'tiny-lru': require('tiny-lru'),
-  hashlru: require('hashlru'),
-  'hyperlru-object': max => hyperlruObject({max}),
-  'hyperlru-map': max => hyperlruMap({max}),
-  lru_cache: n => new LRUCache(n),
-  lru: require('lru'),
-  mkc: max => new MKC({max})
-}
+    worker.onmessage = ev => resolve(ev.data);
+    worker.postMessage(i);
+  });
+})).then(results => {
+  const toMD = require('markdown-tables'),
+    headers = [
+      'name',
+      'size',
+      'gzip',
+      'set',
+      'get1',
+      'update',
+      'get2',
+      'evict'
+    ];
 
-const N_ITERATIONS = 200000
-const headers = [
-  'name',
-  'size',
-  'gzip',
-  'set',
-  'get1',
-  'update',
-  'get2',
-  'evict'
-]
+  spinner.stop();
+  console.log(results.map(i => JSON.parse(i)).sort((a, b) => a.total > b.total ? 1 : a.total < b.total ? -1 : 0));
+  process.exit(0);
+}).catch(err => console.error(err.stack || err.message || err));
 
-const cases = Object.keys(lrus)
-const totalCases = cases.length
-const median = []
-const buffer = []
-
-const fetchSize = async pkg => {
-  const url = `https://bundlephobia.com/api/size?package=${pkg}&record=true`
-  const {body} = await got(url, {json: true})
-  return ['size', 'gzip'].map(value => prettyBytes(body[value]))
-}
-
-let index = 0
+/*let index = 0
 
 ;(async () => {
   for (const lruName of cases) {
@@ -94,3 +83,4 @@ let index = 0
   const table = [headers.join(',')].concat(results).join('\n')
   console.log(toMD(table))
 })()
+*/

@@ -38,10 +38,10 @@
     "quick-lru": "~1.1.0",
     "secondary-cache": "~1.2.1",
     "simple-lru-cache": "0.0.2",
-    "standard": "~10.0.3",
     "standard-markdown": "~4.0.2",
     "tiny-lru": "~1.4.9",
-    "tiny-lru-cache": "~1.0.1"
+    "tiny-lru-cache": "~1.0.1",
+    "tiny-worker": "~2.1.1"
   },
   "scripts": {
     "lint": "standard-markdown && standard",
