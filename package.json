@@ -33,6 +33,7 @@
     "markdown-tables": "~1.1.4",
     "mkc": "~1.3.0",
     "modern-lru": "~1.1.2",
+    "keysort": "~1.0.2",
     "ora": "~1.3.0",
     "pretty-bytes": "~4.0.2",
     "quick-lru": "~1.1.0",

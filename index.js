@@ -26,61 +26,17 @@ Promise.all(caches.map(i => {
   return new Promise(resolve => {
     const worker = new Worker('worker.js');
 
-    worker.onmessage = ev => resolve(ev.data);
+    worker.onmessage = ev => {
+      resolve(ev.data);
+      worker.terminate();
+    };
+
     worker.postMessage(i);
   });
 })).then(results => {
   const toMD = require('markdown-tables'),
-    headers = [
-      'name',
-      'size',
-      'gzip',
-      'set',
-      'get1',
-      'update',
-      'get2',
-      'evict'
-    ];
+    keysort = require('keysort');
 
   spinner.stop();
-  console.log(results.map(i => JSON.parse(i)).sort((a, b) => a.total > b.total ? 1 : a.total < b.total ? -1 : 0));
-  process.exit(0);
+  console.log(toMD(['name,set,get1,update,get2,evict'].concat(keysort(results.map(i => JSON.parse(i)), 'evict, set, get1, update, get2').map(i => `${i.name},${i.set},${i.get1},${i.update},${i.get2},${i.evict}`)).join('\n')));
 }).catch(err => console.error(err.stack || err.message || err));
-
-/*let index = 0
-
-;(async () => {
-  for (const lruName of cases) {
-    const spinner = ora(`${lruName} ${++index}/${totalCases}`).start()
-    const [size, gzip] = await fetchSize(lruName)
-
-    const lru = lrus[lruName]
-    const result = bench(lru, N_ITERATIONS)
-    let total = 0
-
-    const output = result.reduce((acc, value, index) => {
-      total += value
-      acc.push(value)
-      return acc
-    }, [`[${lruName}](https://npm.im/${lruName})`, size, gzip])
-
-    median.push({name: lruName, total})
-    buffer.push(output.join(','))
-    spinner.stop()
-  }
-
-  const sort = median.sort(function compare (b, a) {
-    if (a.total < b.total) return -1
-    if (a.total > b.total) return 1
-    return 0
-  })
-
-  const results = sort.map((lru, index) => {
-    const {name: lruName} = sort[index]
-    return buffer.find(item => item.includes(`[${lruName}]`))
-  }).join('\n')
-
-  const table = [headers.join(',')].concat(results).join('\n')
-  console.log(toMD(table))
-})()
-*/

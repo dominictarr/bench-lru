@@ -1,6 +1,7 @@
 'use strict';
 
 const precise = require('precise'),
+  path = require('path'),
   LRUCache = require('lru_cache').LRUCache,
   Simple = require('simple-lru-cache'),
   Fast = require('lru-fast').LRUCache,
@@ -32,7 +33,17 @@ const precise = require('precise'),
 
 self.onmessage = function (ev) {
   const id = ev.data,
-    timer = precise().start();
+    timer = precise().start(),
+    results = {
+      name: id,
+      'set': 0,
+      get1: 0,
+      update: 0,
+      get2: 0,
+      evict: 0
+  };
 
-  postMessage(JSON.stringify({cache: id, total: timer.stop().diff() / 1e6}));
+  results.set = timer.stop().diff() / 1e6;
+
+  postMessage(JSON.stringify(results));
 };
