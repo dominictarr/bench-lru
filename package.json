@@ -18,7 +18,6 @@
   },
   "devDependencies": {
     "faster-lru-cache": "~2.0.0",
-    "got": "~7.1.0",
     "hashlru": "~2.2.0",
     "hyperlru": "~2.0.0",
     "hyperlru-map": "~1.0.0",
@@ -35,8 +34,8 @@
     "modern-lru": "~1.1.2",
     "keysort": "~1.0.2",
     "ora": "~1.3.0",
-    "pretty-bytes": "~4.0.2",
     "quick-lru": "~1.1.0",
+    "retsu": "~2.0.3",
     "secondary-cache": "~1.2.1",
     "simple-lru-cache": "0.0.2",
     "standard-markdown": "~4.0.2",

@@ -1,7 +1,7 @@
 'use strict';
 
 const precise = require('precise'),
-  path = require('path'),
+  retsu = require('retsu'),
   LRUCache = require('lru_cache').LRUCache,
   Simple = require('simple-lru-cache'),
   Fast = require('lru-fast').LRUCache,
@@ -12,7 +12,7 @@ const precise = require('precise'),
   MKC = require('mkc'),
   hyperlruObject = hyperlru(require('hyperlru-object')),
   hyperlruMap = hyperlru(require('hyperlru-map')),
-  init = {
+  caches = {
     'lru-cache': () => require('lru-cache'),
     'lru-fast': n => new Fast(n),
     'js-lru': n => new LRUMap(n),
@@ -28,22 +28,58 @@ const precise = require('precise'),
     lru: require('lru'),
     mkc: max => new MKC({max})
   },
-  iterations = 200000,
-  times = 5;
+  n = 2e5,
+  e = n * 2,
+  t = 5,
+  x = 1e6,
+  s = 1e3;
 
 self.onmessage = function (ev) {
   const id = ev.data,
-    timer = precise().start(),
+    lru = caches[id](n),
+    time = {
+      'set': [],
+      get1: [],
+      update: [],
+      get2: [],
+      evict: []
+    },
     results = {
       name: id,
       'set': 0,
       get1: 0,
       update: 0,
       get2: 0,
-      evict: 0
-  };
+      evict: 0,
+    };
 
-  results.set = timer.stop().diff() / 1e6;
+  let n = -1;
+
+  while (++n < t) {
+    let stimer = precise().start();
+    for (let i = 0; i < n; i++) lru.set(i, Math.random());
+    time.set.push(stimer.stop().diff() / x);
+
+    let gtimer = precise().start();
+    for (let i = 0; i < n; i++) lru.get(i);
+    time.get1.push(gtimer.stop().diff() / x);
+
+    let utimer = precise().start();
+    for (let i = 0; i < n; i++) lru.set(i, Math.random());
+    time.update.push(utimer.stop().diff() / x);
+
+    const g2timer = precise().start();
+    for (let i = 0; i < n; i++) lru.get(i);
+    time.get2.push(g2timer.stop().diff() / x);
+
+    let etimer = precise().start();
+    for (let i = n; i < e; i++) lru.set(i, Math.random());
+    time.evict.push(etimer.stop().diff() / x);
+  }
+
+  ['set', 'get1', 'update', 'get2', 'evict'].forEach(i => {
+    results[i] = (n / retsu.median(time[i]).toFixed(2)).toFixed(0) * s;
+  });
 
   postMessage(JSON.stringify(results));
 };
