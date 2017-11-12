@@ -8,13 +8,13 @@ const Worker = require('tiny-worker'),
     'hyperlru-object',
     'js-lru',
     'lru',
-    'lru-cache', // slow
+    //'lru-cache', // slow
     'lru-fast',
     'lru_cache',
-    'mkc', // slow
-    'modern-lru', // slow
+    //'mkc', // slow
+    //'modern-lru', // slow
     'quick-lru',
-    'secondary-cache', // slow
+    //'secondary-cache', // slow
     'simple-lru-cache',
     'tiny-lru'
   ];
@@ -28,6 +28,11 @@ Promise.all(caches.map(i => {
     worker.onmessage = ev => {
       resolve(ev.data);
       worker.terminate();
+    };
+
+    worker.onerror = err => {
+      console.error(`\n${err.stack || err.message || err}`);
+      process.exit(1);
     };
 
     worker.postMessage(i);
