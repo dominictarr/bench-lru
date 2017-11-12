@@ -8,13 +8,13 @@ const Worker = require('tiny-worker'),
     'hyperlru-object',
     'js-lru',
     'lru',
-    //'lru-cache', // slow
+    //'lru-cache', // error on `set()` for Jason Mulligan?
     'lru-fast',
     'lru_cache',
-    //'mkc', // slow
-    //'modern-lru', // slow
+    'mkc',
+    'modern-lru',
     'quick-lru',
-    //'secondary-cache', // slow
+    'secondary-cache',
     'simple-lru-cache',
     'tiny-lru'
   ];
