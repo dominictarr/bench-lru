@@ -28,15 +28,15 @@ const precise = require('precise'),
     lru: require('lru'),
     mkc: max => new MKC({max})
   },
-  n = 2e5,
-  e = n * 2,
-  t = 5,
+  num = 2e5,
+  evicts = num * 2,
+  times = 5,
   x = 1e6,
   s = 1e3;
 
 self.onmessage = function (ev) {
   const id = ev.data,
-    lru = caches[id](n),
+    lru = caches[id](num),
     time = {
       'set': [],
       get1: [],
@@ -55,30 +55,30 @@ self.onmessage = function (ev) {
 
   let n = -1;
 
-  while (++n < t) {
+  while (++n < times) {
     let stimer = precise().start();
-    for (let i = 0; i < n; i++) lru.set(i, Math.random());
+    for (let i = 0; i < num; i++) lru.set(i, Math.random());
     time.set.push(stimer.stop().diff() / x);
 
     let gtimer = precise().start();
-    for (let i = 0; i < n; i++) lru.get(i);
+    for (let i = 0; i < num; i++) lru.get(i);
     time.get1.push(gtimer.stop().diff() / x);
 
     let utimer = precise().start();
-    for (let i = 0; i < n; i++) lru.set(i, Math.random());
+    for (let i = 0; i < num; i++) lru.set(i, Math.random());
     time.update.push(utimer.stop().diff() / x);
 
     const g2timer = precise().start();
-    for (let i = 0; i < n; i++) lru.get(i);
+    for (let i = 0; i < num; i++) lru.get(i);
     time.get2.push(g2timer.stop().diff() / x);
 
     let etimer = precise().start();
-    for (let i = n; i < e; i++) lru.set(i, Math.random());
+    for (let i = num; i < evicts; i++) lru.set(i, Math.random());
     time.evict.push(etimer.stop().diff() / x);
   }
 
   ['set', 'get1', 'update', 'get2', 'evict'].forEach(i => {
-    results[i] = (n / retsu.median(time[i]).toFixed(2)).toFixed(0) * s;
+    results[i] = (num / retsu.median(time[i]).toFixed(2)).toFixed(0) * s;
   });
 
   postMessage(JSON.stringify(results));
