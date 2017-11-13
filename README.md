@@ -17,6 +17,7 @@ but it did not describe it's methodology. (and since it measures the memory used
 but tests everything in the same process, it does not get clear results)
 
 ## Benchmark
+
 I run a very simple multi-process benchmark. In four phases:
 
 1. Set the LRU to fit max N=200,000 items with 5 iterations (1 million ops).
