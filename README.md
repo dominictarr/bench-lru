@@ -18,9 +18,9 @@ but tests everything in the same process, it does not get clear results)
 
 ## Benchmark
 
-I run a very simple multi-process benchmark. In four phases:
+I run a very simple multi-process benchmark, with 5 iterations to get a median of ops/ms:
 
-1. Set the LRU to fit max N=200,000 items with 5 iterations (1 million ops).
+1. Set the LRU to fit max N=200,000 items.
 2. Add N random numbers to the cache, with keys 0-N.
 3. Then update those keys with new random numbers.
 4. Then _evict_ those keys, by adding keys N-2N.
