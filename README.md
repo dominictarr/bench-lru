@@ -17,39 +17,38 @@ but it did not describe it's methodology. (and since it measures the memory used
 but tests everything in the same process, it does not get clear results)
 
 ## Benchmark
+I run a very simple multi-process benchmark. In four phases:
 
-I run a very simple benchmark. In four phases:
-
-1. set the LRU to fit max N=100,000 items.
-2. add N random numbers to the cache, with keys 0-N.
-3. then update those keys with new random numbers.
-4. then _evict_ those keys, by adding keys N-2N.
+1. Set the LRU to fit max N=200,000 items with 5 iterations (1 million ops).
+2. Add N random numbers to the cache, with keys 0-N.
+3. Then update those keys with new random numbers.
+4. Then _evict_ those keys, by adding keys N-2N.
 
 ### Results
 
 Operations per millisecond (*higher is better*):
 
-| name                                                | size    | gzip    | set  | get1  | update | get2  | evict |
-|-----------------------------------------------------|---------|---------|------|-------|--------|-------|-------|
-| [lru-fast](https://npm.im/lru-fast)                 | 2.34 kB | 793 B   | 6855 | 27105 | 21550  | 25159 | 4003  |
-| [tiny-lru](https://npm.im/tiny-lru)                 | 4 kB    | 1.64 kB | 4159 | 10746 | 18909  | 15925 | 4042  |
-| [lru_cache](https://npm.im/lru_cache)               | 2.19 kB | 756 B   | 5320 | 14489 | 10785  | 15963 | 4242  |
-| [simple-lru-cache](https://npm.im/simple-lru-cache) | 1.43 kB | 565 B   | 3289 | 12134 | 8600   | 15266 | 3334  |
-| [hyperlru-object](https://npm.im/hyperlru-object)   | 433 B   | 265 B   | 1152 | 8800  | 6205   | 8635  | 1039  |
-| [hashlru](https://npm.im/hashlru)                   | 628 B   | 332 B   | 4438 | 5834  | 4703   | 5960  | 3474  |
-| [hyperlru-map](https://npm.im/hyperlru-map)         | 329 B   | 232 B   | 850  | 4555  | 4030   | 4397  | 690   |
-| [lru](https://npm.im/lru)                           | 6.07 kB | 1.86 kB | 2672 | 3302  | 3142   | 3898  | 1347  |
-| [lru-cache](https://npm.im/lru-cache)               | 19.1 kB | 6.23 kB | 989  | 4702  | 3034   | 4536  | 773   |
-| [secondary-cache](https://npm.im/secondary-cache)   | 22.6 kB | 6.54 kB | 1427 | 2292  | 2740   | 4579  | 1164  |
-| [quick-lru](https://npm.im/quick-lru)               | 1.23 kB | 489 B   | 2441 | 2075  | 2525   | 2119  | 2525  |
-| [modern-lru](https://npm.im/modern-lru)             | 2.27 kB | 907 B   | 1019 | 2531  | 2021   | 2456  | 731   |
-| [mkc](https://npm.im/mkc)                           | 10.5 kB | 3.61 kB | 729  | 1230  | 715    | 1129  | 575   |
+| name                                                   | set     | get1    | update  | get2    | evict   |
+|--------------------------------------------------------|---------|---------|---------|---------|---------|
+| [tiny-lru](https://npmjs.com/tiny-lru)                 | 2211000 | 3273000 | 3130000 | 3457000 | 3606000 |
+| [lru_cache](https://npmjs.com/lru_cache)               | 2864000 | 3628000 | 1347000 | 3688000 | 1474000 |
+| [simple-lru-cache](https://npmjs.com/simple-lru-cache) | 875000  | 4213000 | 2904000 | 6502000 | 891000  |
+| [lru-fast](https://npmjs.com/lru-fast)                 | 451000  | 5381000 | 3390000 | 3935000 | 857000  |
+| [hashlru](https://npmjs.com/hashlru)                   | 1209000 | 1171000 | 773000  | 1289000 | 544000  |
+| [quick-lru](https://npmjs.com/quick-lru)               | 415000  | 725000  | 651000  | 581000  | 533000  |
+| [js-lru](https://www.npmjs.com/package/quick-lru)      | 251000  | 1039000 | 1326000 | 1093000 | 431000  |
+| [lru](https://npmjs.com/lru)                           | 258000  | 714000  | 686000  | 867000  | 345000  |
+| [mkc](https://npmjs.com/mkc)                           | 374000  | 886000  | 415000  | 739000  | 341000  |
+| [modern-lru](https://npmjs.com/modern-lru)             | 169000  | 755000  | 906000  | 842000  | 316000  |
+| [hyperlru-object](https://npmjs.com/hyperlru-object)   | 237000  | 2256000 | 1252000 | 2546000 | 310000  |
+| [secondary-cache](https://npmjs.com/secondary-cache)   | 254000  | 1079000 | 652000  | 1072000 | 279000  |
+| [hyperlru-map](https://npmjs.com/hyperlru-map)         | 192000  | 1229000 | 893000  | 1698000 | 218000  |
+
 
 We can group the results in a few categories:
 
-* all rounders (tiny-lru, hashlru, lru-native, modern-lru, lru-cache) where the performance
-  to add update and evict are comparable.
-* fast-write, slow-evict (lru_cache, lru, simple-lru-cache, lru-fast) these have better set/update times, but for some reason are quite slow to evict items!
+* all rounders (tiny-lru, lru-cache, simple-lru-cache, lru-fast) where the performance to add update and evict are comparable.
+* fast-write, slow-evict (lru_cache, lru, hashlru, lru-native, modern-lru) these have better set/update times, but for some reason are quite slow to evict items!
 * slow in at least 2 categories (mkc, faster-lru-cache, secondary-cache)
 
 ## Discussion
@@ -64,6 +63,8 @@ Also, some have faster add than update, and some faster update than add.
 I wrote `hashlru` after my seeing the other results from this benchmark, it's important to point
 out that it does not use the classic LRU algorithm, but has the important properties of the LRU
 (bounded memory use and O(1) time complexity)
+
+Splitting the benchmark into multiple processes helps minimize JIT state pollution (gc, turbofan opt/deopt, etc.), and we see a much clearer picture of performance per library.
 
 ## Future work
 
