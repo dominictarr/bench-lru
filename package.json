@@ -18,11 +18,11 @@
   },
   "devDependencies": {
     "faster-lru-cache": "~2.0.0",
-    "got": "~7.1.0",
     "hashlru": "~2.2.0",
     "hyperlru": "~2.0.0",
     "hyperlru-map": "~1.0.0",
     "hyperlru-object": "~1.0.0",
+    "keysort": "~1.0.2",
     "lodash": "~4.17.4",
     "lru": "~3.1.0",
     "lru-cache": "~4.1.1",
@@ -34,14 +34,16 @@
     "mkc": "~1.3.0",
     "modern-lru": "~1.1.2",
     "ora": "~1.3.0",
-    "pretty-bytes": "~4.0.2",
+    "precise": "~1.1.0",
     "quick-lru": "~1.1.0",
+    "retsu": "~2.0.3",
     "secondary-cache": "~1.2.1",
+    "should": "^13.1.3",
     "simple-lru-cache": "0.0.2",
-    "standard": "~10.0.3",
     "standard-markdown": "~4.0.2",
-    "tiny-lru": "~1.4.9",
-    "tiny-lru-cache": "~1.0.1"
+    "tiny-lru": "^1.4.13",
+    "tiny-lru-cache": "~1.0.1",
+    "tiny-worker": "~2.1.1"
   },
   "scripts": {
     "lint": "standard-markdown && standard",

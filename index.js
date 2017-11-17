@@ -1,96 +1,49 @@
-'use strict'
+'use strict';
 
-const prettyBytes = require('pretty-bytes')
-const toMD = require('markdown-tables')
-const bench = require('./bench')
-const ora = require('ora')
-const got = require('got')
+const Worker = require('tiny-worker'),
+  ora = require('ora'),
+  caches = [
+    'hashlru',
+    'hyperlru-map',
+    'hyperlru-object',
+    'js-lru',
+    'lru',
+    //'lru-cache', // error on `set()` for Jason Mulligan?
+    'lru-fast',
+    'lru_cache',
+    'mkc',
+    'modern-lru',
+    'quick-lru',
+    'secondary-cache',
+    'simple-lru-cache',
+    'tiny-lru'
+  ];
 
-const LRUCache = require('lru_cache').LRUCache
-const Simple = require('simple-lru-cache')
-const Fast = require('lru-fast').LRUCache
-const QuickLRU = require('quick-lru')
-const Modern = require('modern-lru')
-const hyperlru = require('hyperlru')
-const {LRUMap} = require('lru_map')
-const MKC = require('mkc')
+const spinner = ora(`Benchmarking ${caches.length} caches`).start();
 
-const hyperlruObject = hyperlru(require('hyperlru-object'))
-const hyperlruMap = hyperlru(require('hyperlru-map'))
+Promise.all(caches.map(i => {
+  return new Promise(resolve => {
+    const worker = new Worker('worker.js');
 
-const lrus = {
-  'lru-cache': require('lru-cache'),
-  'lru-fast': n => new Fast(n),
-  'js-lru': n => new LRUMap(n),
-  'modern-lru': n => new Modern(n),
-  'quick-lru': maxSize => new QuickLRU({maxSize}),
-  'secondary-cache': require('secondary-cache'),
-  'simple-lru-cache': maxSize => new Simple({maxSize}),
-  'tiny-lru': require('tiny-lru'),
-  hashlru: require('hashlru'),
-  'hyperlru-object': max => hyperlruObject({max}),
-  'hyperlru-map': max => hyperlruMap({max}),
-  lru_cache: n => new LRUCache(n),
-  lru: require('lru'),
-  mkc: max => new MKC({max})
-}
+    worker.onmessage = ev => {
+      resolve(ev.data);
+      worker.terminate();
+    };
 
-const N_ITERATIONS = 200000
-const headers = [
-  'name',
-  'size',
-  'gzip',
-  'set',
-  'get1',
-  'update',
-  'get2',
-  'evict'
-]
+    worker.onerror = err => {
+      console.error(`\n${err.stack || err.message || err}`);
+      process.exit(1);
+    };
 
-const cases = Object.keys(lrus)
-const totalCases = cases.length
-const median = []
-const buffer = []
+    worker.postMessage(i);
+  });
+})).then(results => {
+  const toMD = require('markdown-tables'),
+    keysort = require('keysort');
 
-const fetchSize = async pkg => {
-  const url = `https://bundlephobia.com/api/size?package=${pkg}&record=true`
-  const {body} = await got(url, {json: true})
-  return ['size', 'gzip'].map(value => prettyBytes(body[value]))
-}
-
-let index = 0
-
-;(async () => {
-  for (const lruName of cases) {
-    const spinner = ora(`${lruName} ${++index}/${totalCases}`).start()
-    const [size, gzip] = await fetchSize(lruName)
-
-    const lru = lrus[lruName]
-    const result = bench(lru, N_ITERATIONS)
-    let total = 0
-
-    const output = result.reduce((acc, value, index) => {
-      total += value
-      acc.push(value)
-      return acc
-    }, [`[${lruName}](https://npm.im/${lruName})`, size, gzip])
-
-    median.push({name: lruName, total})
-    buffer.push(output.join(','))
-    spinner.stop()
-  }
-
-  const sort = median.sort(function compare (b, a) {
-    if (a.total < b.total) return -1
-    if (a.total > b.total) return 1
-    return 0
-  })
-
-  const results = sort.map((lru, index) => {
-    const {name: lruName} = sort[index]
-    return buffer.find(item => item.includes(`[${lruName}]`))
-  }).join('\n')
-
-  const table = [headers.join(',')].concat(results).join('\n')
-  console.log(toMD(table))
-})()
+  spinner.stop();
+  console.log(toMD(['name,set,get1,update,get2,evict'].concat(keysort(results.map(i => JSON.parse(i)), 'evict desc, set desc, get1 desc, update desc, get2 desc').map(i => `${i.name},${i.set},${i.get1},${i.update},${i.get2},${i.evict}`)).join('\n')));
+}).catch(err => {
+  console.error(err.stack || err.message || err);
+  process.exit(1);
+});
