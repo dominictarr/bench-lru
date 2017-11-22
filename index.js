@@ -34,7 +34,7 @@ caches.forEach((i, idx) => {
 
       worker.onerror = err => {
         reject(err);
-        process.exit(1);
+        worker.terminate();
       };
 
       worker.postMessage(i);
