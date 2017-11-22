@@ -31,8 +31,7 @@ const precise = require('precise'),
   num = 2e5,
   evicts = num * 2,
   times = 5,
-  x = 1e6,
-  s = 1e3;
+  x = 1e6;
 
 self.onmessage = function (ev) {
   const id = ev.data,
