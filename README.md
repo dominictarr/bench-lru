@@ -29,21 +29,21 @@ I run a very simple multi-process benchmark, with 5 iterations to get a median o
 
 Operations per millisecond (*higher is better*):
 
-| name                                                   | set     | get1    | update  | get2    | evict   |
-|--------------------------------------------------------|---------|---------|---------|---------|---------|
-| [tiny-lru](https://npmjs.com/tiny-lru)                 | 2211000 | 3273000 | 3130000 | 3457000 | 3606000 |
-| [lru_cache](https://npmjs.com/lru_cache)               | 2864000 | 3628000 | 1347000 | 3688000 | 1474000 |
-| [simple-lru-cache](https://npmjs.com/simple-lru-cache) | 875000  | 4213000 | 2904000 | 6502000 | 891000  |
-| [lru-fast](https://npmjs.com/lru-fast)                 | 451000  | 5381000 | 3390000 | 3935000 | 857000  |
-| [hashlru](https://npmjs.com/hashlru)                   | 1209000 | 1171000 | 773000  | 1289000 | 544000  |
-| [quick-lru](https://npmjs.com/quick-lru)               | 415000  | 725000  | 651000  | 581000  | 533000  |
-| [js-lru](https://www.npmjs.com/package/quick-lru)      | 251000  | 1039000 | 1326000 | 1093000 | 431000  |
-| [lru](https://npmjs.com/lru)                           | 258000  | 714000  | 686000  | 867000  | 345000  |
-| [mkc](https://npmjs.com/mkc)                           | 374000  | 886000  | 415000  | 739000  | 341000  |
-| [modern-lru](https://npmjs.com/modern-lru)             | 169000  | 755000  | 906000  | 842000  | 316000  |
-| [hyperlru-object](https://npmjs.com/hyperlru-object)   | 237000  | 2256000 | 1252000 | 2546000 | 310000  |
-| [secondary-cache](https://npmjs.com/secondary-cache)   | 254000  | 1079000 | 652000  | 1072000 | 279000  |
-| [hyperlru-map](https://npmjs.com/hyperlru-map)         | 192000  | 1229000 | 893000  | 1698000 | 218000  |
+| name                                                   | set   | get1  | update | get2  | evict |
+|--------------------------------------------------------|-------|-------|--------|-------|-------|
+| [tiny-lru](https://npmjs.com/tiny-lru)                 | 21254 | 17762 | 18886  | 20725 | 18779 |
+| [lru_cache](https://npmjs.com/lru_cache)               | 6527  | 16407 | 8651   | 27701 | 14815 |
+| [simple-lru-cache](https://npmjs.com/simple-lru-cache) | 7275  | 31949 | 17746  | 27510 | 5819  |
+| [lru-fast](https://npmjs.com/lru-fast)                 | 4245  | 21598 | 19305  | 28249 | 4617  |
+| [hashlru](https://npmjs.com/hashlru)                   | 4012  | 6601  | 3929   | 6462  | 4362  |
+| [quick-lru](https://npmjs.com/quick-lru)               | 2082  | 2061  | 2239   | 2241  | 2724  |
+| [js-lru](https://www.npmjs.com/package/quick-lru)      | 1192  | 2199  | 2785   | 4211  | 1617  |
+| [hyperlru-object](https://npmjs.com/hyperlru-object)   | 1099  | 5931  | 6408   | 15987 | 1295  |
+| [secondary-cache](https://npmjs.com/secondary-cache)   | 1251  | 3927  | 2310   | 6127  | 1285  |
+| [js-lru](https://www.npmjs.com/package/quick-lru)      | 729   | 5569  | 3378   | 5811  | 1042  |
+| [hyperlru-map](https://npmjs.com/hyperlru-map)         | 709   | 3050  | 4137   | 4442  | 754   |
+| [mkc](https://npmjs.com/mkc)                           | 585   | 1379  | 736    | 1402  | 595   |
+| [modern-lru](https://npmjs.com/modern-lru)             | 680   | 2729  | 1930   | 2668  | 555   |
 
 
 We can group the results in a few categories:

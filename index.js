@@ -19,25 +19,30 @@ const Worker = require('tiny-worker'),
     'tiny-lru'
   ];
 
-const spinner = ora(`Benchmarking ${caches.length} caches`).start();
+const spinner = ora(`Benchmarking ${caches.length} caches`).start(),
+  promises = [];
 
-Promise.all(caches.map(i => {
-  return new Promise(resolve => {
-    const worker = new Worker('worker.js');
+caches.forEach((i, idx) => {
+  promises.push(new Promise((resolve, reject) => {
+    return (idx === 0 ? Promise.resolve() : promises[idx - 1]).then(() => {
+      const worker = new Worker('worker.js');
 
-    worker.onmessage = ev => {
-      resolve(ev.data);
-      worker.terminate();
-    };
+      worker.onmessage = ev => {
+        resolve(ev.data);
+        worker.terminate();
+      };
 
-    worker.onerror = err => {
-      console.error(`\n${err.stack || err.message || err}`);
-      process.exit(1);
-    };
+      worker.onerror = err => {
+        reject(err);
+        process.exit(1);
+      };
 
-    worker.postMessage(i);
-  });
-})).then(results => {
+      worker.postMessage(i);
+    }).catch(reject);
+  }));
+});
+
+Promise.all(promises).then(results => {
   const toMD = require('markdown-tables'),
     keysort = require('keysort');
 

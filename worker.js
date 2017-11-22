@@ -78,7 +78,7 @@ self.onmessage = function (ev) {
   }
 
   ['set', 'get1', 'update', 'get2', 'evict'].forEach(i => {
-    results[i] = (num / retsu.median(time[i]).toFixed(2)).toFixed(0) * s;
+    results[i] = Number((num / retsu.median(time[i]).toFixed(2)).toFixed(0));
   });
 
   postMessage(JSON.stringify(results));
