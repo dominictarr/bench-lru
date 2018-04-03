@@ -17,9 +17,10 @@ const Worker = require('tiny-worker'),
     'secondary-cache',
     'simple-lru-cache',
     'tiny-lru'
-  ];
+  ],
+  nth = caches.length;
 
-const spinner = ora(`Benchmarking ${caches.length} caches`).start(),
+const spinner = ora(`Starting benchmark of ${nth} caches`).start(),
   promises = [];
 
 caches.forEach((i, idx) => {
@@ -37,6 +38,7 @@ caches.forEach((i, idx) => {
         worker.terminate();
       };
 
+      spinner.text = `Benchmarking ${idx + 1} of ${nth} caches`;
       worker.postMessage(i);
     }).catch(reject);
   }));
