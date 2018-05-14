@@ -38,7 +38,7 @@ caches.forEach((i, idx) => {
         worker.terminate();
       };
 
-      spinner.text = `Benchmarking ${idx + 1} of ${nth} caches`;
+      spinner.text = `Benchmarking ${idx + 1} of ${nth} caches (${i})`;
       worker.postMessage(i);
     }).catch(reject);
   }));
