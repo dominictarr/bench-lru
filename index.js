@@ -16,7 +16,8 @@ const Worker = require('tiny-worker'),
     'quick-lru',
     'secondary-cache',
     'simple-lru-cache',
-    'tiny-lru'
+    'tiny-lru',
+    'mnemonist'
   ],
   nth = caches.length;
 
