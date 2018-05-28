@@ -49,7 +49,7 @@ Promise.all(promises).then(results => {
     keysort = require('keysort');
 
   spinner.stop();
-  console.log(toMD(['name,set,get1,update,get2,evict'].concat(keysort(results.map(i => JSON.parse(i)), 'evict desc, set desc, get1 desc, update desc, get2 desc').map(i => `${i.name},${i.set},${i.get1},${i.update},${i.get2},${i.evict}`)).join('\n')));
+  console.log(toMD(['name,set,get1,update,get2,evict'].concat(keysort(results.map(i => JSON.parse(i)), 'evict desc, set desc, get1 desc, update desc, get2 desc').map(i => `[${i.name}](https://www.npmjs.com/package/${i.name}),${i.set},${i.get1},${i.update},${i.get2},${i.evict}`)).join('\n')));
 }).catch(err => {
   console.error(err.stack || err.message || err);
   process.exit(1);
