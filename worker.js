@@ -13,6 +13,7 @@ const precise = require('precise'),
   hyperlruObject = hyperlru(require('hyperlru-object')),
   hyperlruMap = hyperlru(require('hyperlru-map')),
   MnemonistLRUCache = require('mnemonist/lru-cache'),
+  MnemonistLRUMap = require('mnemonist/lru-map'),
   caches = {
     'lru-cache': () => require('lru-cache')(),
     'lru-fast': n => new Fast(n),
@@ -28,7 +29,8 @@ const precise = require('precise'),
     lru_cache: n => new LRUCache(n),
     lru: require('lru'),
     mkc: max => new MKC({max}),
-    mnemonist: n => new MnemonistLRUCache(n)
+    'mnemonist-object': n => new MnemonistLRUCache(n),
+    'mnemonist-map': n => new MnemonistLRUMap(n)
   },
   num = 2e5,
   evicts = num * 2,

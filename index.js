@@ -17,7 +17,8 @@ const Worker = require('tiny-worker'),
     'secondary-cache',
     'simple-lru-cache',
     'tiny-lru',
-    'mnemonist'
+    'mnemonist-object',
+    'mnemonist-map'
   ],
   nth = caches.length;
 
