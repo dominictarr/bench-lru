@@ -30,27 +30,27 @@ I run a very simple multi-process benchmark, with 5 iterations to get a median o
 Operations per millisecond (*higher is better*):
 
 
-| name                                                           | set   | get1  | update | get2  | evict |
-|----------------------------------------------------------------|-------|-------|--------|-------|-------|
-| [lru_cache](https://npmjs.com/package/lru_cache)               | 10390 | 30864 | 8598   | 29112 | 12173 |
-| [lru-cache](https://npmjs.com/package/lru-cache)               | 4468  | 5593  | 4409   | 5907  | 7943  |
-| [lru-fast](https://npmjs.com/package/lru-fast)                 | 3492  | 20513 | 19342  | 34072 | 7286  |
-| [simple-lru-cache](https://npmjs.com/package/simple-lru-cache) | 3956  | 29369 | 13860  | 27855 | 6502  |
-| [tiny-lru](https://npmjs.com/package/tiny-lru)                 | 7112  | 14706 | 29630  | 24907 | 4496  |
-| [hashlru](https://npmjs.com/package/hashlru)                   | 3112  | 4765  | 4377   | 4726  | 4196  |
-| [quick-lru](https://npmjs.com/package/quick-lru)               | 3584  | 3257  | 4338   | 3609  | 3893  |
-| [hyperlru-object](https://npmjs.com/package/hyperlru-object)   | 2167  | 7353  | 6913   | 12195 | 2519  |
-| [lru](https://www.npmjs.com/package/lru)                       | 1757  | 4381  | 4077   | 4840  | 1807  |
-| [js-lru](https://www.npmjs.com/package/quick-lru)              | 1419  | 6180  | 7223   | 10477 | 1508  |
-| [secondary-cache](https://npmjs.com/package/secondary-cache)   | 1268  | 4420  | 3368   | 7663  | 1371  |
-| [hyperlru-map](https://npmjs.com/package/hyperlru-map)         | 1149  | 3927  | 5276   | 9355  | 1206  |
-| [modern-lru](https://npmjs.com/package/modern-lru)             | 839   | 4542  | 3799   | 4689  | 939   |
-| [mkc](https://npmjs.com/packacge/package/mkc)                  | 667   | 1528  | 984    | 1734  | 621   |
+| name                                                           | set  | get1  | update | get2  | evict |
+|----------------------------------------------------------------|------|-------|--------|-------|-------|
+| [lru_cache](https://npmjs.com/package/lru_cache)               | 3436 | 19084 | 5105   | 19417 | 9425  |
+| [tiny-lru](https://npmjs.com/package/tiny-lru)                 | 5993 | 20790 | 21692  | 18797 | 5157  |
+| [simple-lru-cache](https://npmjs.com/package/simple-lru-cache) | 3204 | 24783 | 16639  | 40984 | 4962  |
+| [lru-cache](https://npmjs.com/package/lru-cache)               | 2096 | 2694  | 2901   | 2978  | 4183  |
+| [quick-lru](https://npmjs.com/package/quick-lru)               | 2601 | 2510  | 2764   | 2742  | 3342  |
+| [hashlru](https://npmjs.com/package/hashlru)                   | 5222 | 6135  | 3039   | 3656  | 2751  |
+| [lru-fast](https://npmjs.com/package/lru-fast)                 | 2157 | 28612 | 17905  | 31104 | 2650  |
+| [hyperlru-map](https://npmjs.com/package/hyperlru-map)         | 1971 | 7728  | 5663   | 8396  | 2282  |
+| [js-lru](https://www.npmjs.com/package/quick-lru)              | 1205 | 2448  | 2422   | 2224  | 1527  |
+| [lru](https://www.npmjs.com/package/lru)                       | 1309 | 3359  | 2675   | 3664  | 1456  |
+| [secondary-cache](https://npmjs.com/package/secondary-cache)   | 1583 | 4132  | 3489   | 4128  | 1170  |
+| [hyperlru-map](https://npmjs.com/package/hyperlru-map)         | 1076 | 2869  | 2268   | 3439  | 1112  |
+| [modern-lru](https://npmjs.com/package/modern-lru)             | 639  | 2352  | 1612   | 2276  | 710   |
+| [mkc](https://npmjs.com/packacge/package/mkc)                  | 673  | 1114  | 773    | 1241  | 630   |
 
 
 We can group the results in a few categories:
 
-* all rounders (lru_cache, simple-lru-cache, lru-fast, tiny-lru) where the performance to add update and evict are comparable.
+* all rounders (lru_cache, tiny-lru, simple-lru-cache, lru-fast) where the performance to add update and evict are comparable.
 * fast-write, slow-evict (lru, hashlru, lru-native, modern-lru) these have better set/update times, but for some reason are quite slow to evict items!
 * slow in at least 2 categories (lru-cache, mkc, faster-lru-cache, secondary-cache)
 
