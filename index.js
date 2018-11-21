@@ -2,24 +2,25 @@
 
 const Worker = require('tiny-worker'),
   ora = require('ora'),
-  caches = [
-    'hashlru',
-    'hyperlru-map',
-    'hyperlru-object',
-    'js-lru',
-    'lru',
-    'lru-cache',
-    'lru-fast',
-    'lru_cache',
-    'mkc',
-    'modern-lru',
-    'quick-lru',
-    'secondary-cache',
-    'simple-lru-cache',
-    'tiny-lru',
-    'mnemonist-object',
-    'mnemonist-map'
-  ],
+  meta = {
+    'hashlru': {url: 'https://npmjs.com/package/hashlru'},
+    'hyperlru-map': {url: 'https://npmjs.com/package/hyperlru-map'},
+    'hyperlru-object': {url: 'https://npmjs.com/package/hyperlru-object'},
+    'js-lru': {url: 'https://www.npmjs.com/package/js-lru'},
+    'lru': {url: 'https://www.npmjs.com/package/lru'},
+    'lru-cache': {url: 'https://npmjs.com/package/lru-cache'},
+    'lru-fast': {url: 'https://npmjs.com/package/lru-fast'},
+    'lru_cache': {url: 'https://npmjs.com/package/lru_cache'},
+    'mkc': {url: 'https://npmjs.com/packacge/package/mkc'},
+    'modern-lru': {url: 'https://npmjs.com/package/modern-lru'},
+    'quick-lru': {url: 'https://npmjs.com/package/quick-lru'},
+    'secondary-cache': {url: 'https://npmjs.com/package/secondary-cache'},
+    'simple-lru-cache': {url: 'https://npmjs.com/package/simple-lru-cache'},
+    'tiny-lru': {url: 'https://npmjs.com/package/tiny-lru'},
+    'mnemonist-object': {url: 'https://www.npmjs.com/package/mnemonist'},
+    'mnemonist-map': {url: 'https://www.npmjs.com/package/mnemonist'}
+  },
+  caches = Object.keys(meta),
   nth = caches.length;
 
 const spinner = ora(`Starting benchmark of ${nth} caches`).start(),
@@ -40,7 +41,7 @@ caches.forEach((i, idx) => {
         worker.terminate();
       };
 
-      spinner.text = `Benchmarking ${idx + 1} of ${nth} caches`;
+      spinner.text = `Benchmarking ${idx + 1} of ${nth} caches [${i}]`;
       worker.postMessage(i);
     }).catch(reject);
   }));
@@ -51,7 +52,7 @@ Promise.all(promises).then(results => {
     keysort = require('keysort');
 
   spinner.stop();
-  console.log(toMD(['name,set,get1,update,get2,evict'].concat(keysort(results.map(i => JSON.parse(i)), 'evict desc, set desc, get1 desc, update desc, get2 desc').map(i => `${i.name},${i.set},${i.get1},${i.update},${i.get2},${i.evict}`)).join('\n')));
+  console.log(toMD(['name,set,get1,update,get2,evict'].concat(keysort(results.map(i => JSON.parse(i)), 'evict desc, set desc, get1 desc, update desc, get2 desc').map(i => `[${i.name}](${meta[i.name].url}),${i.set},${i.get1},${i.update},${i.get2},${i.evict}`)).join('\n')));
 }).catch(err => {
   console.error(err.stack || err.message || err);
   process.exit(1);
