@@ -39,7 +39,7 @@ Operations per millisecond (*higher is better*):
 | [quick-lru](https://npmjs.com/package/quick-lru)               | 2601 | 2510  | 2764   | 2742  | 3342  |
 | [hashlru](https://npmjs.com/package/hashlru)                   | 5222 | 6135  | 3039   | 3656  | 2751  |
 | [lru-fast](https://npmjs.com/package/lru-fast)                 | 2157 | 28612 | 17905  | 31104 | 2650  |
-| [hyperlru-map](https://npmjs.com/package/hyperlru-map)         | 1971 | 7728  | 5663   | 8396  | 2282  |
+| [hyperlru-object](https://npmjs.com/package/hyperlru-object)   | 1971 | 7728  | 5663   | 8396  | 2282  |
 | [js-lru](https://www.npmjs.com/package/quick-lru)              | 1205 | 2448  | 2422   | 2224  | 1527  |
 | [lru](https://www.npmjs.com/package/lru)                       | 1309 | 3359  | 2675   | 3664  | 1456  |
 | [secondary-cache](https://npmjs.com/package/secondary-cache)   | 1583 | 4132  | 3489   | 4128  | 1170  |
