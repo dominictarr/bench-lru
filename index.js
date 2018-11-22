@@ -10,7 +10,6 @@ const Worker = require('tiny-worker'),
     'lru': {url: 'https://www.npmjs.com/package/lru'},
     'lru-cache': {url: 'https://npmjs.com/package/lru-cache'},
     'lru-fast': {url: 'https://npmjs.com/package/lru-fast'},
-    'lru_cache': {url: 'https://npmjs.com/package/lru_cache'},
     'mkc': {url: 'https://npmjs.com/packacge/package/mkc'},
     'modern-lru': {url: 'https://npmjs.com/package/modern-lru'},
     'quick-lru': {url: 'https://npmjs.com/package/quick-lru'},
@@ -18,7 +17,11 @@ const Worker = require('tiny-worker'),
     'simple-lru-cache': {url: 'https://npmjs.com/package/simple-lru-cache'},
     'tiny-lru': {url: 'https://npmjs.com/package/tiny-lru'},
     'mnemonist-object': {url: 'https://www.npmjs.com/package/mnemonist'},
-    'mnemonist-map': {url: 'https://www.npmjs.com/package/mnemonist'}
+    'mnemonist-map': {url: 'https://www.npmjs.com/package/mnemonist'},
+
+    // NOTE: temporarily withdrawn because of a capacity leak
+    // See https://github.com/Empact/lru_cache/pull/2
+    // 'lru_cache': {url: 'https://npmjs.com/package/lru_cache'},
   },
   caches = Object.keys(meta),
   nth = caches.length;
