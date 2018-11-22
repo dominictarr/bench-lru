@@ -30,27 +30,29 @@ I run a very simple multi-process benchmark, with 5 iterations to get a median o
 Operations per millisecond (*higher is better*):
 
 
-| name                                                           | set  | get1  | update | get2  | evict |
-|----------------------------------------------------------------|------|-------|--------|-------|-------|
-| [lru_cache](https://npmjs.com/package/lru_cache)               | 3436 | 19084 | 5105   | 19417 | 9425  |
-| [tiny-lru](https://npmjs.com/package/tiny-lru)                 | 5993 | 20790 | 21692  | 18797 | 5157  |
-| [simple-lru-cache](https://npmjs.com/package/simple-lru-cache) | 3204 | 24783 | 16639  | 40984 | 4962  |
-| [lru-cache](https://npmjs.com/package/lru-cache)               | 2096 | 2694  | 2901   | 2978  | 4183  |
-| [quick-lru](https://npmjs.com/package/quick-lru)               | 2601 | 2510  | 2764   | 2742  | 3342  |
-| [hashlru](https://npmjs.com/package/hashlru)                   | 5222 | 6135  | 3039   | 3656  | 2751  |
-| [lru-fast](https://npmjs.com/package/lru-fast)                 | 2157 | 28612 | 17905  | 31104 | 2650  |
-| [hyperlru-object](https://npmjs.com/package/hyperlru-object)   | 1971 | 7728  | 5663   | 8396  | 2282  |
-| [js-lru](https://www.npmjs.com/package/quick-lru)              | 1205 | 2448  | 2422   | 2224  | 1527  |
-| [lru](https://www.npmjs.com/package/lru)                       | 1309 | 3359  | 2675   | 3664  | 1456  |
-| [secondary-cache](https://npmjs.com/package/secondary-cache)   | 1583 | 4132  | 3489   | 4128  | 1170  |
-| [hyperlru-map](https://npmjs.com/package/hyperlru-map)         | 1076 | 2869  | 2268   | 3439  | 1112  |
-| [modern-lru](https://npmjs.com/package/modern-lru)             | 639  | 2352  | 1612   | 2276  | 710   |
-| [mkc](https://npmjs.com/packacge/package/mkc)                  | 673  | 1114  | 773    | 1241  | 630   |
+| name                                                           | set   | get1  | update | get2  | evict |
+|----------------------------------------------------------------|-------|-------|--------|-------|-------|
+| [lru_cache](https://npmjs.com/package/lru_cache)               | 13432 | 29240 | 7527   | 30075 | 12523 |
+| [mnemonist-object](https://www.npmjs.com/package/mnemonist)    | 9877  | 93458 | 33445  | 90090 | 8997  |
+| [simple-lru-cache](https://npmjs.com/package/simple-lru-cache) | 6131  | 34072 | 19980  | 38911 | 6754  |
+| [lru-cache](https://npmjs.com/package/lru-cache)               | 3500  | 5212  | 4122   | 4588  | 6402  |
+| [lru-fast](https://npmjs.com/package/lru-fast)                 | 5164  | 33058 | 27211  | 27701 | 5729  |
+| [hashlru](https://npmjs.com/package/hashlru)                   | 3701  | 7020  | 4644   | 7505  | 5705  |
+| [tiny-lru](https://npmjs.com/package/tiny-lru)                 | 17575 | 25806 | 25806  | 23838 | 5260  |
+| [quick-lru](https://npmjs.com/package/quick-lru)               | 4003  | 3197  | 4787   | 3352  | 4803  |
+| [hyperlru-object](https://npmjs.com/package/hyperlru-object)   | 2667  | 6971  | 12399  | 13928 | 3512  |
+| [mnemonist-map](https://www.npmjs.com/package/mnemonist)       | 3750  | 14337 | 10817  | 15198 | 3262  |
+| [js-lru](https://www.npmjs.com/package/js-lru)                 | 1701  | 4084  | 4124   | 4847  | 1960  |
+| [lru](https://www.npmjs.com/package/lru)                       | 2048  | 4723  | 3366   | 4745  | 1953  |
+| [secondary-cache](https://npmjs.com/package/secondary-cache)   | 2106  | 7587  | 4526   | 9255  | 1544  |
+| [hyperlru-map](https://npmjs.com/package/hyperlru-map)         | 1406  | 3015  | 3716   | 4193  | 1299  |
+| [mkc](https://npmjs.com/packacge/package/mkc)                  | 976   | 1918  | 1139   | 1915  | 854   |
+| [modern-lru](https://npmjs.com/package/modern-lru)             | 796   | 2981  | 2824   | 3012  | 836   |
 
 
 We can group the results in a few categories:
 
-* all rounders (lru_cache, tiny-lru, simple-lru-cache, lru-fast) where the performance to add update and evict are comparable.
+* all rounders (mnemonist, lru_cache, tiny-lru, simple-lru-cache, lru-fast) where the performance to add update and evict are comparable.
 * fast-write, slow-evict (lru, hashlru, lru-native, modern-lru) these have better set/update times, but for some reason are quite slow to evict items!
 * slow in at least 2 categories (lru-cache, mkc, faster-lru-cache, secondary-cache)
 
