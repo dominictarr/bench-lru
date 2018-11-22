@@ -2,6 +2,7 @@
 
 const precise = require('precise'),
   retsu = require('retsu'),
+  LRUCacheHyphen = require('lru-cache'),
   LRUCache = require('lru_cache').LRUCache,
   Simple = require('simple-lru-cache'),
   Fast = require('lru-fast').LRUCache,
@@ -15,7 +16,7 @@ const precise = require('precise'),
   MnemonistLRUCache = require('mnemonist/lru-cache'),
   MnemonistLRUMap = require('mnemonist/lru-map'),
   caches = {
-    'lru-cache': () => require('lru-cache')(),
+    'lru-cache': n => new LRUCacheHyphen(n),
     'lru-fast': n => new Fast(n),
     'js-lru': n => new LRUMap(n),
     'modern-lru': n => new Modern(n),
