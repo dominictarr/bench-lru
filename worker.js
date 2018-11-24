@@ -34,9 +34,19 @@ const precise = require('precise'),
     'mnemonist-map': n => new MnemonistLRUMap(n)
   },
   num = 2e5,
-  evicts = num * 2,
   times = 5,
-  x = 1e6;
+  x = 1e6,
+  data1 = new Array(num),
+  data2 = new Array(num);
+
+(function seed () {
+  let z = -1;
+
+  while (++z < num) {
+    data1[z] = [z, Math.floor(Math.random() * 1e7)];
+    data2[z] = [z, Math.floor(Math.random() * 1e7)];
+  }
+}());
 
 self.onmessage = function (ev) {
   const id = ev.data,
@@ -60,24 +70,24 @@ self.onmessage = function (ev) {
   let n = -1;
 
   while (++n < times) {
-    let stimer = precise().start();
-    for (let i = 0; i < num; i++) lru.set(i, Math.random());
+    const stimer = precise().start();
+    for (let i = 0; i < num; i++) lru.set(data1[i][0], data1[i][1]);
     time.set.push(stimer.stop().diff() / x);
 
-    let gtimer = precise().start();
-    for (let i = 0; i < num; i++) lru.get(i);
+    const gtimer = precise().start();
+    for (let i = 0; i < num; i++) lru.get(data1[i][0]);
     time.get1.push(gtimer.stop().diff() / x);
 
-    let utimer = precise().start();
-    for (let i = 0; i < num; i++) lru.set(i, Math.random());
+    const utimer = precise().start();
+    for (let i = 0; i < num; i++) lru.set(data1[i][0], data2[i][1]);
     time.update.push(utimer.stop().diff() / x);
 
     const g2timer = precise().start();
-    for (let i = 0; i < num; i++) lru.get(i);
+    for (let i = 0; i < num; i++) lru.get(data1[i][0]);
     time.get2.push(g2timer.stop().diff() / x);
 
-    let etimer = precise().start();
-    for (let i = num; i < evicts; i++) lru.set(i, Math.random());
+    const etimer = precise().start();
+    for (let i = 0; i < num; i++) lru.set(data2[i][0], data2[i][1]);
     time.evict.push(etimer.stop().diff() / x);
   }
 

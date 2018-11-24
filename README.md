@@ -30,24 +30,24 @@ I run a very simple multi-process benchmark, with 5 iterations to get a median o
 Operations per millisecond (*higher is better*):
 
 
-| name                                                           | set   | get1  | update | get2  | evict |
-|----------------------------------------------------------------|-------|-------|--------|-------|-------|
-| [lru_cache](https://npmjs.com/package/lru_cache)               | 13432 | 29240 | 7527   | 30075 | 12523 |
-| [mnemonist-object](https://www.npmjs.com/package/mnemonist)    | 9877  | 93458 | 33445  | 90090 | 8997  |
-| [simple-lru-cache](https://npmjs.com/package/simple-lru-cache) | 6131  | 34072 | 19980  | 38911 | 6754  |
-| [lru-cache](https://npmjs.com/package/lru-cache)               | 3500  | 5212  | 4122   | 4588  | 6402  |
-| [lru-fast](https://npmjs.com/package/lru-fast)                 | 5164  | 33058 | 27211  | 27701 | 5729  |
-| [hashlru](https://npmjs.com/package/hashlru)                   | 3701  | 7020  | 4644   | 7505  | 5705  |
-| [tiny-lru](https://npmjs.com/package/tiny-lru)                 | 17575 | 25806 | 25806  | 23838 | 5260  |
-| [quick-lru](https://npmjs.com/package/quick-lru)               | 4003  | 3197  | 4787   | 3352  | 4803  |
-| [hyperlru-object](https://npmjs.com/package/hyperlru-object)   | 2667  | 6971  | 12399  | 13928 | 3512  |
-| [mnemonist-map](https://www.npmjs.com/package/mnemonist)       | 3750  | 14337 | 10817  | 15198 | 3262  |
-| [js-lru](https://www.npmjs.com/package/js-lru)                 | 1701  | 4084  | 4124   | 4847  | 1960  |
-| [lru](https://www.npmjs.com/package/lru)                       | 2048  | 4723  | 3366   | 4745  | 1953  |
-| [secondary-cache](https://npmjs.com/package/secondary-cache)   | 2106  | 7587  | 4526   | 9255  | 1544  |
-| [hyperlru-map](https://npmjs.com/package/hyperlru-map)         | 1406  | 3015  | 3716   | 4193  | 1299  |
-| [mkc](https://npmjs.com/packacge/package/mkc)                  | 976   | 1918  | 1139   | 1915  | 854   |
-| [modern-lru](https://npmjs.com/package/modern-lru)             | 796   | 2981  | 2824   | 3012  | 836   |
+| name                                                           | set  | get1  | update | get2  | evict |
+|----------------------------------------------------------------|------|-------|--------|-------|-------|
+| [mnemonist-object](https://www.npmjs.com/package/mnemonist)    | 5573 | 33557 | 27778  | 54054 | 35714 |
+| [tiny-lru](https://npmjs.com/package/tiny-lru)                 | 5466 | 39448 | 26178  | 25381 | 30349 |
+| [lru-fast](https://npmjs.com/package/lru-fast)                 | 5322 | 19861 | 18083  | 17227 | 22936 |
+| [lru_cache](https://npmjs.com/package/lru_cache)               | 4836 | 20284 | 18605  | 18100 | 19666 |
+| [hashlru](https://npmjs.com/package/hashlru)                   | 9179 | 10331 | 11730  | 12937 | 14524 |
+| [simple-lru-cache](https://npmjs.com/package/simple-lru-cache) | 5094 | 17391 | 13784  | 15302 | 13680 |
+| [mnemonist-map](https://www.npmjs.com/package/mnemonist)       | 3281 | 6485  | 5124   | 7197  | 5886  |
+| [hyperlru-object](https://npmjs.com/package/hyperlru-object)   | 3125 | 5511  | 5365   | 5602  | 5588  |
+| [quick-lru](https://npmjs.com/package/quick-lru)               | 3815 | 2367  | 3707   | 2572  | 4156  |
+| [js-lru](https://www.npmjs.com/package/js-lru)                 | 2183 | 3476  | 3091   | 3223  | 3203  |
+| [lru-cache](https://npmjs.com/package/lru-cache)               | 2049 | 3088  | 3228   | 3103  | 3121  |
+| [lru](https://www.npmjs.com/package/lru)                       | 2438 | 3823  | 3612   | 3932  | 2854  |
+| [hyperlru-map](https://npmjs.com/package/hyperlru-map)         | 2134 | 2916  | 2887   | 2674  | 2788  |
+| [secondary-cache](https://npmjs.com/package/secondary-cache)   | 3066 | 5637  | 3469   | 5695  | 2289  |
+| [modern-lru](https://npmjs.com/package/modern-lru)             | 1558 | 2392  | 1862   | 2204  | 2060  |
+| [mkc](https://npmjs.com/packacge/package/mkc)                  | 927  | 1321  | 834    | 1357  | 894   |
 
 
 We can group the results in a few categories:
