@@ -10,7 +10,7 @@ const Worker = require('tiny-worker'),
     'lru': {url: 'https://www.npmjs.com/package/lru'},
     'lru-cache': {url: 'https://npmjs.com/package/lru-cache'},
     'lru-fast': {url: 'https://npmjs.com/package/lru-fast'},
-    'lru_cache': {url: 'https://npmjs.com/package/lru_cache'},
+    //'lru_cache': {url: 'https://npmjs.com/package/lru_cache'},  // NOTE: temporarily withdrawn because of a capacity leak - see https://github.com/Empact/lru_cache/pull/2
     'mkc': {url: 'https://npmjs.com/packacge/package/mkc'},
     'modern-lru': {url: 'https://npmjs.com/package/modern-lru'},
     'quick-lru': {url: 'https://npmjs.com/package/quick-lru'},
