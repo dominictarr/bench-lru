@@ -27,22 +27,23 @@ const precise = require('precise'),
     hashlru: require('hashlru'),
     'hyperlru-object': max => hyperlruObject({max}),
     'hyperlru-map': max => hyperlruMap({max}),
-    lru_cache: n => new LRUCache(n),
+    //lru_cache: n => new LRUCache(n),
     lru: require('lru'),
     mkc: max => new MKC({max}),
     'mnemonist-object': n => new MnemonistLRUCache(n),
     'mnemonist-map': n => new MnemonistLRUMap(n)
   },
   num = 2e5,
+  evict = num * 2,
   times = 5,
   x = 1e6,
-  data1 = new Array(num),
-  data2 = new Array(num);
+  data1 = new Array(evict),
+  data2 = new Array(evict);
 
 (function seed () {
   let z = -1;
 
-  while (++z < num) {
+  while (++z < evict) {
     data1[z] = [z, Math.floor(Math.random() * 1e7)];
     data2[z] = [z, Math.floor(Math.random() * 1e7)];
   }
@@ -87,7 +88,7 @@ self.onmessage = function (ev) {
     time.get2.push(g2timer.stop().diff() / x);
 
     const etimer = precise().start();
-    for (let i = 0; i < num; i++) lru.set(data2[i][0], data2[i][1]);
+    for (let i = num; i < evict; i++) lru.set(data1[i][0], data1[i][1]);
     time.evict.push(etimer.stop().diff() / x);
   }
 
