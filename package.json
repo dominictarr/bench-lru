@@ -42,7 +42,7 @@
     "should": "^13.2.1",
     "simple-lru-cache": "^0.0.2",
     "standard-markdown": "^4.0.2",
-    "tiny-lru": "^4.0.5",
+    "tiny-lru": "^4.0.6",
     "tiny-lru-cache": "^1.0.1",
     "tiny-worker": "^2.1.2"
   },
