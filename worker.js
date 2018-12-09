@@ -51,7 +51,6 @@ const precise = require('precise'),
 
 self.onmessage = function (ev) {
   const id = ev.data,
-    lru = caches[id](num),
     time = {
       'set': [],
       get1: [],
@@ -71,6 +70,7 @@ self.onmessage = function (ev) {
   let n = -1;
 
   while (++n < times) {
+    const lru = caches[id](num)
     const stimer = precise().start();
     for (let i = 0; i < num; i++) lru.set(data1[i][0], data1[i][1]);
     time.set.push(stimer.stop().diff() / x);
