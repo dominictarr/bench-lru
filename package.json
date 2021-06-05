@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "bench-lru",
   "description": "",
   "homepage": "https://github.com/dominictarr/bench-lru",
@@ -7,7 +8,7 @@
   "author": {
     "email": "dominic.tarr@gmail.com",
     "name": "'Dominic Tarr'",
-    "url": "dominictarr.com"
+    "url": "https://dominictarr.com/"
   },
   "repository": {
     "type": "git",
@@ -18,33 +19,32 @@
   },
   "dependencies": {
     "faster-lru-cache": "^2.0.0",
-    "hashlru": "^2.2.1",
+    "hashlru": "^2.3.0",
     "hyperlru": "^2.1.2",
     "hyperlru-map": "^1.0.0",
     "hyperlru-object": "^1.0.0",
     "keysort": "^1.0.2",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.21",
     "lru": "^3.1.0",
-    "lru-cache": "^4.1.2",
-    "lru-fast": "^0.2.2",
     "lru_cache": "^1.0.2",
-    "lru_map": "^0.3.3",
+    "lru_map": "^0.4.1",
+    "lru-cache": "^6.0.0",
+    "lru-fast": "^0.2.2",
     "lrucache": "^1.0.3",
     "markdown-tables": "^1.1.4",
     "mkc": "^1.3.0",
-    "mnemonist": "^0.25.0",
-    "modern-lru": "^1.2.0",
-    "ora": "^2.0.0",
+    "mnemonist": "^0.38.3",
+    "modern-lru": "^1.4.0",
+    "ora": "^5.4.0",
     "precise": "^1.1.0",
-    "quick-lru": "^1.1.0",
-    "retsu": "^3.0.1",
-    "secondary-cache": "^1.2.1",
-    "should": "^13.2.1",
+    "quick-lru": "6.0.0",
+    "retsu": "^3.0.2",
+    "secondary-cache": "^1.2.4",
+    "should": "^13.2.3",
     "simple-lru-cache": "^0.0.2",
-    "standard-markdown": "^4.0.2",
-    "tiny-lru": "^5.0.0",
-    "tiny-lru-cache": "^1.0.1",
-    "tiny-worker": "^2.1.2"
+    "standard-markdown": "^6.0.0",
+    "tiny-lru": "^7.0.6",
+    "tiny-lru-cache": "^1.0.1"
   },
   "scripts": {
     "start": "NODE_ENV=production node index.js",
