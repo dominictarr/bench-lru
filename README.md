@@ -32,21 +32,21 @@ Operations per millisecond (*higher is better*):
 
 | name                                                           | set   | get1  | update | get2  | evict |
 |----------------------------------------------------------------|-------|-------|--------|-------|-------|
-| [hashlru](https://npmjs.com/package/hashlru)                   | 18536 | 17590 | 17794  | 18332 | 9381  |
-| [mnemonist-object](https://www.npmjs.com/package/mnemonist)    | 15314 | 69444 | 35026  | 68966 | 7949  |
-| [quick-lru](https://npmjs.com/package/quick-lru)               | 8214  | 4572  | 6777   | 4608  | 6345  |
-| [tiny-lru](https://npmjs.com/package/tiny-lru)                 | 6530  | 46296 | 37244  | 42017 | 5961  |
-| [lru-fast](https://npmjs.com/package/lru-fast)                 | 5979  | 36832 | 32626  | 40900 | 5929  |
-| [mnemonist-map](https://www.npmjs.com/package/mnemonist)       | 6272  | 15785 | 10923  | 16077 | 3738  |
-| [lru](https://www.npmjs.com/package/lru)                       | 3927  | 5454  | 5001   | 5366  | 2827  |
-| [simple-lru-cache](https://npmjs.com/package/simple-lru-cache) | 3393  | 3855  | 3701   | 3899  | 2496  |
-| [hyperlru-object](https://npmjs.com/package/hyperlru-object)   | 3515  | 3953  | 4044   | 4102  | 2495  |
-| [js-lru](https://www.npmjs.com/package/js-lru)                 | 3813  | 10010 | 9246   | 10309 | 1843  |
-| [secondary-cache](https://npmjs.com/package/secondary-cache)   | 2780  | 5705  | 5790   | 10549 | 1727  |
-| [lru-cache](https://npmjs.com/package/lru-cache)               | 2275  | 3388  | 3334   | 3301  | 1593  |
-| [hyperlru-map](https://npmjs.com/package/hyperlru-map)         | 2424  | 2508  | 2443   | 2540  | 1552  |
-| [modern-lru](https://npmjs.com/package/modern-lru)             | 2710  | 3946  | 3581   | 4021  | 1327  |
-| [mkc](https://npmjs.com/packacge/package/mkc)                  | 1559  | 2044  | 1178   | 2161  | 1037  |
+| [hashlru](https://npmjs.com/package/hashlru)                   | 20222 | 30912 | 36036  | 30912 | 11507 |
+| [quick-lru](https://npmjs.com/package/quick-lru)               | 9790  | 5618  | 8937   | 5922  | 11338 |
+| [mnemonist-object](https://www.npmjs.com/package/mnemonist)    | 17809 | 99010 | 62696  | 80321 | 10864 |
+| [simple-lru-cache](https://npmjs.com/package/simple-lru-cache) | 6581  | 48426 | 43197  | 46729 | 9685  |
+| [tiny-lru](https://npmjs.com/package/tiny-lru)                 | 7707  | 51546 | 41580  | 50000 | 7605  |
+| [mnemonist-map](https://www.npmjs.com/package/mnemonist)       | 8496  | 25445 | 18501  | 19920 | 7010  |
+| [lru-fast](https://npmjs.com/package/lru-fast)                 | 4154  | 57971 | 42827  | 47847 | 4278  |
+| [hyperlru-object](https://npmjs.com/package/hyperlru-object)   | 2558  | 21978 | 10828  | 22075 | 3360  |
+| [lru](https://www.npmjs.com/package/lru)                       | 5330  | 8865  | 7593   | 6570  | 3141  |
+| [modern-lru](https://npmjs.com/package/modern-lru)             | 4082  | 11765 | 9901   | 11820 | 3039  |
+| [js-lru](https://www.npmjs.com/package/js-lru)                 | 4039  | 12682 | 10515  | 12477 | 2829  |
+| [lru-cache](https://npmjs.com/package/lru-cache)               | 3660  | 15962 | 11080  | 13652 | 2663  |
+| [secondary-cache](https://npmjs.com/package/secondary-cache)   | 3271  | 8981  | 3953   | 8925  | 2297  |
+| [hyperlru-map](https://npmjs.com/package/hyperlru-map)         | 2416  | 12579 | 7911   | 12005 | 2237  |
+| [mkc](https://npmjs.com/packacge/package/mkc)                  | 1591  | 2779  | 1578   | 3384  | 953   |
 
 
 We can group the results in a few categories:
