@@ -1,44 +1,52 @@
-'use strict';
+import hashlru from 'hashlru';
+import hyperlru from 'hyperlru';
+import hyperlruMapImpl from 'hyperlru-map';
+import hyperlruObjectImpl from 'hyperlru-object';
+import lru from 'lru';
+import LRUCacheHyphen from 'lru-cache';
+import LruFash from 'lru-fast';
+import lruMap from 'lru_map';
+import MKC from 'mkc';
+import MnemonistLRUCache from 'mnemonist/lru-cache.js';
+import MnemonistLRUMap from 'mnemonist/lru-map.js';
+import Modern from 'modern-lru';
+import precise from 'precise';
+import QuickLRU from 'quick-lru';
+import retsu from 'retsu';
+import secondaryCache from 'secondary-cache';
+import Simple from 'simple-lru-cache';
+import tinyLru from 'tiny-lru';
+import { parentPort } from 'worker_threads';
+const Fast = LruFash.LRUCache;
+const LRUMap = lruMap.LRUMap;
+const median = retsu.median;
 
-const precise = require('precise'),
-  retsu = require('retsu'),
-  LRUCacheHyphen = require('lru-cache'),
-  LRUCache = require('lru_cache').LRUCache,
-  Simple = require('simple-lru-cache'),
-  Fast = require('lru-fast').LRUCache,
-  QuickLRU = require('quick-lru'),
-  Modern = require('modern-lru'),
-  hyperlru = require('hyperlru'),
-  {LRUMap} = require('lru_map'),
-  MKC = require('mkc'),
-  hyperlruObject = hyperlru(require('hyperlru-object')),
-  hyperlruMap = hyperlru(require('hyperlru-map')),
-  MnemonistLRUCache = require('mnemonist/lru-cache'),
-  MnemonistLRUMap = require('mnemonist/lru-map'),
-  caches = {
-    'lru-cache': n => new LRUCacheHyphen(n),
-    'lru-fast': n => new Fast(n),
-    'js-lru': n => new LRUMap(n),
-    'modern-lru': n => new Modern(n),
-    'quick-lru': maxSize => new QuickLRU({maxSize}),
-    'secondary-cache': require('secondary-cache'),
-    'simple-lru-cache': maxSize => new Simple({maxSize}),
-    'tiny-lru': require('tiny-lru'),
-    hashlru: require('hashlru'),
-    'hyperlru-object': max => hyperlruObject({max}),
-    'hyperlru-map': max => hyperlruMap({max}),
-    //lru_cache: n => new LRUCache(n),
-    lru: require('lru'),
-    mkc: max => new MKC({max}),
-    'mnemonist-object': n => new MnemonistLRUCache(n),
-    'mnemonist-map': n => new MnemonistLRUMap(n)
-  },
-  num = 2e5,
-  evict = num * 2,
-  times = 5,
-  x = 1e6,
-  data1 = new Array(evict),
-  data2 = new Array(evict);
+const hyperlruObject = hyperlru(hyperlruObjectImpl);
+const hyperlruMap = hyperlru(hyperlruMapImpl);
+const caches = {
+  'lru-cache': n => new LRUCacheHyphen(n),
+  'lru-fast': n => new Fast(n),
+  'js-lru': n => new LRUMap(n),
+  'modern-lru': n => new Modern(n),
+  'quick-lru': maxSize => new QuickLRU({ maxSize }),
+  'secondary-cache': secondaryCache,
+  'simple-lru-cache': maxSize => new Simple({ maxSize }),
+  'tiny-lru': tinyLru,
+  hashlru,
+  'hyperlru-object': max => hyperlruObject({ max }),
+  'hyperlru-map': max => hyperlruMap({ max }),
+  //lru_cache: n => new LRUCache(n),
+  lru,
+  mkc: max => new MKC({ max }),
+  'mnemonist-object': n => new MnemonistLRUCache(n),
+  'mnemonist-map': n => new MnemonistLRUMap(n)
+};
+const num = 2e5;
+const evict = num * 2;
+const times = 5;
+const x = 1e6;
+const data1 = new Array(evict);
+const data2 = new Array(evict);
 
 (function seed () {
   let z = -1;
@@ -49,9 +57,8 @@ const precise = require('precise'),
   }
 }());
 
-self.onmessage = function (ev) {
-  const id = ev.data,
-    time = {
+parentPort.on("message", (id) => {
+  const time = {
       'set': [],
       get1: [],
       update: [],
@@ -93,8 +100,8 @@ self.onmessage = function (ev) {
   }
 
   ['set', 'get1', 'update', 'get2', 'evict'].forEach(i => {
-    results[i] = Number((num / retsu.median(time[i]).toFixed(2)).toFixed(0));
+    results[i] = Number((num / median(time[i]).toFixed(2)).toFixed(0));
   });
 
-  postMessage(JSON.stringify(results));
-};
+  parentPort.postMessage(results);
+})
