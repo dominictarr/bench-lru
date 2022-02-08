@@ -28,7 +28,7 @@
     "lru_cache": "^1.0.2",
     "lru_map": "^0.4.1",
     "lru-cache": "^6",
-    "lru-cache-7": "github:isaacs/node-lru-cache#v7",
+    "lru-cache-7": "npm:lru-cache@^7.0.0",
     "lru-fast": "^0.2.2",
     "lrucache": "^1.0.3",
     "markdown-tables": "^1.1.4",
